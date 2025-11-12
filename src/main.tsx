@@ -1,31 +1,7 @@
 import { ReactDOM } from "react-dom/client";
-import { RouterProvider, createBrowserRouter } from "react-router";
+import { RouterProvider } from "react-router";
 import "./index.css";
-import App from "./App.tsx";
-
-const router = createBrowserRouter([
-	{
-		element: <App />,
-		children: [
-			{
-				path: "/",
-				element: <Home />,
-			},
-			{
-				path: "/game",
-				element: <Game />,
-			},
-			{
-				path: "/ending",
-				element: <Ending />,
-			},
-			{
-				path: "/scores",
-				element: <Scores />,
-			},
-		],
-	},
-]);
+import router from "./Router.tsx";
 
 const rootElement = document.getElementById("root");
 
