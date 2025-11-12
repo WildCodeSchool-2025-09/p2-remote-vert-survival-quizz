@@ -1,0 +1,22 @@
+@font-face {
+	font-family: "Langar";
+	src: url("../assets/font/Langar/Langar-Regular.ttf");
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Road_Rage";
+	src: url("../assets/font/Road_Rage/RoadRage-Regular.ttf");
+	font-weight: normal;
+	font-style: normal;
+}
+
+:root {
+	--box-color: #3c3838;
+	--light-color: #e4e4e4;
+	--primary-color: #c11402;
+
+	--title-font: "Langar";
+	--text-font: "Road_Rage";
+}
