@@ -1,0 +1,21 @@
+.inside-nav {
+	width: 100%;
+	display: flex;
+	justify-content: flex-end;
+	height: 150px;
+	border-radius: 45px;
+	background-color: #3c3838;
+	opacity: 90%;
+}
+
+.navbar-map {
+	width: 9.9375rem;
+	height: 8.875rem;
+	padding: 1rem;
+	transition: all 0.3s ease;
+}
+
+.navbar-map:hover {
+	width: 25rem;
+	height: 23rem;
+}
