@@ -1,6 +1,6 @@
-import { ReactDOM } from "react-dom/client";
+import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router";
-import "./index.css";
+import "./styles/index.css";
 import router from "./Router.tsx";
 
 const rootElement = document.getElementById("root");
