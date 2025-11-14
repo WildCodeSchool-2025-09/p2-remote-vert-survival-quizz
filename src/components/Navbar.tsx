@@ -1,4 +1,4 @@
-import type { Room } from "../type/GameDataTypes";
+import type { Room } from "../type/gameDataTypes";
 import "../styles/navbar.css";
 
 type NavbarProps = {

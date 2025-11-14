@@ -3,9 +3,14 @@ import Navbar from "../components/Navbar";
 import { roomsData } from "../data/Gamedata";
 import "../styles/game.css";
 import "../styles/navbar.css";
+import type {
+	DataType,
+	FormatQuestions,
+	QuestionType,
+} from "../type/gameTypes";
 
 function Game() {
-	const [questions, setQuestions] = useState([]);
+	const [questions, setQuestions] = useState<FormatQuestions[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [currentRoom, setCurrentRoom] = useState(1);
 	const [gamePhase, setGamePhase] = useState("narration");
@@ -15,8 +20,8 @@ function Game() {
 
 		const apiUrl = import.meta.env.VITE_API_URL;
 
-		const formatQuestions = (data) => {
-			return data.quizzes.map((question) => {
+		const formatQuestions = (data: DataType) => {
+			return data.quizzes.map((question: QuestionType) => {
 				const goodAnswer = question.answer;
 				const badAnswers = question.badAnswers;
 				const allAnswers = [goodAnswer, ...badAnswers].sort(
@@ -32,7 +37,7 @@ function Game() {
 			});
 		};
 
-		const fetchByDifficulty = (difficulty) => {
+		const fetchByDifficulty = (difficulty: string) => {
 			return fetch(`${apiUrl}?difficulty=${difficulty}`)
 				.then((response) => response.json())
 				.then((data) => {
@@ -65,6 +70,7 @@ function Game() {
 	const currentNarration = roomsData.find(
 		(narration) => narration.number === currentRoom,
 	);
+
 	const currentQuestion = questions[currentRoom - 1];
 
 	const buttonContinue = () => {
@@ -80,6 +86,8 @@ function Game() {
 			alert("Fin du jeu en construction !");
 		}
 	};
+
+	if (!currentNarration) return <p>Salle introuvable</p>;
 
 	const backgroundCurrentRoom = {
 		backgroundImage: `url(${currentNarration.background})`,
@@ -123,7 +131,7 @@ function Game() {
 				<article className="narration-question">
 					<h1 className="box-question">{currentQuestion.question}</h1>
 					<button
-						className="button-next"
+						className="button-next-room"
 						type="button"
 						onClick={buttonNextRoom}
 					>

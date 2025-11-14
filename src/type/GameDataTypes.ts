@@ -1,5 +1,9 @@
 export type RoomRole = "game" | "narration";
 
+export type RoomType = {
+	room: Room;
+};
+
 export interface Room {
 	name: string;
 	number: number;
@@ -9,7 +13,13 @@ export interface Room {
 	background: string;
 	narrationText: string;
 	readyText: string;
+	success: string;
+	failure: string;
 }
+
+export type CharacterType = {
+	character: Character;
+};
 
 export type Character = {
 	name: string;
@@ -18,18 +28,27 @@ export type Character = {
 	logo_dead?: string;
 };
 
+export type HomeType = {
+	room: Homepage;
+};
+
 export interface Homepage {
 	name: string;
 	number: number;
 	roles: RoomRole[];
 	background: string;
+	title: string;
+	undertitle: string;
+	text1: string;
+	text2: string;
+	text3: string;
 }
 
 export interface RoomNarration {
 	initial: string;
 	ready: string;
-	success?: string;
-	failure?: string;
+	success: string;
+	failure: string;
 }
 export interface HomeNarration {
 	title: string;

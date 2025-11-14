@@ -2,11 +2,11 @@ import { Link } from "react-router";
 
 function Home() {
 	return (
-		<nav>
+		<section>
 			<button type="button">
 				<Link to="/game">Entrez</Link>
 			</button>
-		</nav>
+		</section>
 	);
 }
 

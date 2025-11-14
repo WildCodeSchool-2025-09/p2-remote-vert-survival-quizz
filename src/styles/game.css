@@ -2,6 +2,8 @@
 	width: 100vw;
 	height: 100vh;
 	background-size: 100%;
+	background-repeat: no-repeat;
+	background-position: center 30%;
 }
 
 .navbar {
@@ -44,6 +46,22 @@
 	margin-left: 1000px;
 	margin-top: -55px;
 	z-index: 1;
+	cursor: pointer;
+}
+
+.button-next-room {
+	background-color: var(--primary-color);
+	font-family: var(--text-font);
+	font-size: 30px;
+	color: var(--light-color);
+	width: 250px;
+	height: 70px;
+	border: none;
+	border-radius: 45px;
+	margin-left: 1000px;
+	margin-top: -55px;
+	z-index: 1;
+	cursor: pointer;
 }
 
 .box-question {
