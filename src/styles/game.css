@@ -1,0 +1,118 @@
+.background-room {
+	width: 100vw;
+	height: 100vh;
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-position: center 30%;
+
+	&.Hall {
+		background-image: url("../assets/img/narration/rooms_backgrounds/hall.png");
+	}
+	&.Kitchen {
+		background-image: url("../assets/img/narration/rooms_backgrounds/kitchen.png");
+	}
+	&.Library {
+		background-image: url("../assets/img/narration/rooms_backgrounds/library.png");
+	}
+	&.Ball {
+		background-image: url("../assets/img/narration/rooms_backgrounds/ball_room.png");
+	}
+	&.Cellar {
+		background-image: url("../assets/img/narration/rooms_backgrounds/cellar.png");
+	}
+	&.Pantry {
+		background-image: url("../assets/img/narration/rooms_backgrounds/pantry.png");
+	}
+	&.Storage {
+		background-image: url("../assets/img/narration/rooms_backgrounds/storage_room.png");
+	}
+	&.Morgue {
+		background-image: url("../assets/img/narration/rooms_backgrounds/the_morgue.png");
+	}
+	&.Labo {
+		background-image: url("../assets/img/narration/rooms_backgrounds/entrancelab.png");
+	}
+	&.Office {
+		background-image: url("../assets/img/narration/rooms_backgrounds/office_laboratory.png");
+	}
+	&.Surgery {
+		background-image: url("../assets/img/narration/rooms_backgrounds/surgery_laboratory.png");
+	}
+	&.Cuve {
+		background-image: url("../assets/img/narration/rooms_backgrounds/cuve_laboratory.png");
+	}
+}
+
+.navbar {
+	padding-top: 35px;
+	padding-left: 35px;
+	padding-right: 35px;
+}
+
+.narration-phase,
+.narration-question {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.box-narration {
+	width: 50%;
+	background-color: var(--box-color);
+	color: var(--light-color);
+	font-family: var(--text-font);
+	font-size: 20px;
+	line-height: 1.5;
+	opacity: 90%;
+	border: 5px solid var(--light-color);
+	border-radius: 45px;
+	padding: 30px;
+	text-align: justify;
+	margin-top: 80px;
+}
+
+.button-next {
+	background-color: var(--primary-color);
+	font-family: var(--text-font);
+	font-size: 32px;
+	color: var(--light-color);
+	width: 175px;
+	height: 70px;
+	border: none;
+	border-radius: 45px;
+	margin-left: 1000px;
+	margin-top: -55px;
+	z-index: 1;
+	cursor: pointer;
+}
+
+.button-next-room {
+	background-color: var(--primary-color);
+	font-family: var(--text-font);
+	font-size: 30px;
+	color: var(--light-color);
+	width: 250px;
+	height: 70px;
+	border: none;
+	border-radius: 45px;
+	margin-left: 1000px;
+	margin-top: -55px;
+	z-index: 1;
+	cursor: pointer;
+}
+
+.box-question {
+	width: 50%;
+	background-color: var(--box-color);
+	color: var(--light-color);
+	font-family: var(--title-font);
+	font-size: 50px;
+	font-weight: 300;
+	line-height: 1.5;
+	opacity: 90%;
+	border: 5px solid var(--light-color);
+	border-radius: 45px;
+	padding: 30px;
+	text-align: center;
+	margin-top: 80px;
+}
