@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
-import { roomsData } from "../data/Gamedata";
+import { roomsData } from "../data/GameData";
 import "../styles/game.css";
 import "../styles/navbar.css";
 import type {
 	DataType,
-	FormatQuestions,
+	FormatQuestionsType,
 	QuestionType,
-} from "../type/gameTypes";
+} from "../types/gameTypes";
 
 function Game() {
-	const [questions, setQuestions] = useState<FormatQuestions[]>([]);
+	const [questions, setQuestions] = useState<FormatQuestionsType[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [currentRoom, setCurrentRoom] = useState(1);
 	const [gamePhase, setGamePhase] = useState("narration");
@@ -20,8 +20,8 @@ function Game() {
 
 		const apiUrl = import.meta.env.VITE_API_URL;
 
-		const formatQuestions = (data: DataType) => {
-			return data.quizzes.map((question: QuestionType) => {
+		const formatQuestions = (apiData: DataType) => {
+			return apiData.quizzes.map((question: QuestionType) => {
 				const goodAnswer = question.answer;
 				const badAnswers = question.badAnswers;
 				const allAnswers = [goodAnswer, ...badAnswers].sort(
@@ -40,8 +40,8 @@ function Game() {
 		const fetchByDifficulty = (difficulty: string) => {
 			return fetch(`${apiUrl}?difficulty=${difficulty}`)
 				.then((response) => response.json())
-				.then((data) => {
-					const formatted = formatQuestions(data).filter(
+				.then((apiData) => {
+					const formatted = formatQuestions(apiData).filter(
 						(question) => question.level === difficulty,
 					);
 					return formatted.slice(0, 4);
@@ -73,12 +73,12 @@ function Game() {
 
 	const currentQuestion = questions[currentRoom - 1];
 
-	const buttonContinue = () => {
+	const nextPhase = () => {
 		if (gamePhase === "narration") setGamePhase("ready");
 		else if (gamePhase === "ready") setGamePhase("question");
 	};
 
-	const buttonNextRoom = () => {
+	const nextRoom = () => {
 		if (currentRoom < roomsData.length) {
 			setCurrentRoom(currentRoom + 1);
 			setGamePhase("narration");
@@ -89,23 +89,15 @@ function Game() {
 
 	if (!currentNarration) return <p>Salle introuvable</p>;
 
-	const backgroundCurrentRoom = {
-		backgroundImage: `url(${currentNarration.background})`,
-	};
-
 	return (
-		<section className="background-room" style={backgroundCurrentRoom}>
+		<section className={`background-room ${currentNarration.name}`}>
 			<nav className="navbar">
 				<Navbar roomData={currentNarration} />
 			</nav>
 			{gamePhase === "narration" && (
 				<article className="narration-phase">
 					<p className="box-narration">{currentNarration?.narrationText}</p>
-					<button
-						className="button-next"
-						type="button"
-						onClick={buttonContinue}
-					>
+					<button className="button-next" type="button" onClick={nextPhase}>
 						Suivant
 					</button>
 				</article>
@@ -117,11 +109,7 @@ function Game() {
 						ATTENTION DEFENDS TOI !<br />
 						{currentNarration?.readyText}
 					</p>
-					<button
-						className="button-next"
-						type="button"
-						onClick={buttonContinue}
-					>
+					<button className="button-next" type="button" onClick={nextPhase}>
 						GO !
 					</button>
 				</article>
@@ -130,11 +118,7 @@ function Game() {
 			{gamePhase === "question" && (
 				<article className="narration-question">
 					<h1 className="box-question">{currentQuestion.question}</h1>
-					<button
-						className="button-next-room"
-						type="button"
-						onClick={buttonNextRoom}
-					>
+					<button className="button-next-room" type="button" onClick={nextRoom}>
 						Salle suivante
 					</button>
 				</article>

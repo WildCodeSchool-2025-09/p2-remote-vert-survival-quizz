@@ -1,6 +1,5 @@
-import type { HomeNarration, RoomNarration } from "../type/gameDataTypes";
+import type { HomeNarration, RoomNarration } from "../types/gameDataTypes";
 
-// Texte for home page
 export const homeTexts: HomeNarration = {
 	title: "REACT EVIL",
 	undertitle: `Entre dans l'univers de ce survival Quiz. Arriveras tu à sortir en un seul morceau de ce manoir?`,

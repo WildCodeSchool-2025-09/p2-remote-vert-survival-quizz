@@ -1,19 +1,5 @@
-// GameData.ts
-import type { Character, Homepage, Room } from "../type/gameDataTypes";
+import type { Character, Homepage, Room } from "../types/gameDataTypes";
 
-// Import background and map
-import ball_background from "../assets/img/narration/rooms_backgrounds/ball_room.png";
-import cellar_background from "../assets/img/narration/rooms_backgrounds/cellar.png";
-import cuve_background from "../assets/img/narration/rooms_backgrounds/cuve_laboratory.png";
-import entrancelab_background from "../assets/img/narration/rooms_backgrounds/entrancelab.png";
-import hall_background from "../assets/img/narration/rooms_backgrounds/hall.png";
-import kitchen_background from "../assets/img/narration/rooms_backgrounds/kitchen.png";
-import library_background from "../assets/img/narration/rooms_backgrounds/library.png";
-import office_background from "../assets/img/narration/rooms_backgrounds/office_laboratory.png";
-import pantry_background from "../assets/img/narration/rooms_backgrounds/pantry.png";
-import storage_background from "../assets/img/narration/rooms_backgrounds/storage_room.png";
-import surgery_background from "../assets/img/narration/rooms_backgrounds/surgery_laboratory.png";
-import morgue_background from "../assets/img/narration/rooms_backgrounds/the_morgue.png";
 import cellar_map from "../assets/img/navbar/maps/basement/room1.png";
 import pantry_map from "../assets/img/navbar/maps/basement/room2.png";
 import storage_map from "../assets/img/navbar/maps/basement/room3.png";
@@ -26,9 +12,7 @@ import entrancelab_map from "../assets/img/navbar/maps/laboratory/room1.png";
 import office_map from "../assets/img/navbar/maps/laboratory/room2.png";
 import surgery_map from "../assets/img/navbar/maps/laboratory/room3.png";
 import cuve_map from "../assets/img/navbar/maps/laboratory/room4.png";
-import home_background from "../assets/img/start/backgrounds/main_menu.png";
 
-// Import character images
 import emeric from "../assets/img/narration/characters/emeric.png";
 import jugurtha from "../assets/img/narration/characters/jugurta.png";
 import lisa from "../assets/img/narration/characters/lisa.png";
@@ -42,7 +26,6 @@ import jugurtha_logo_dead from "../assets/img/navbar/characters/dead/jug.png";
 import lisa_logo_dead from "../assets/img/navbar/characters/dead/lisa.png";
 import luna_logo_dead from "../assets/img/navbar/characters/dead/luna.png";
 
-// Import narration texts
 import {
 	ballTexts,
 	cellarTexts,
@@ -57,14 +40,12 @@ import {
 	pantryTexts,
 	storage_roomTexts,
 	surgeryLaboratoryTexts,
-} from "../data/narrationTexts";
+} from "./NarrationData";
 
 export const HomepageData: Homepage[] = [
 	{
 		name: "HomeStart",
 		number: 0,
-		roles: ["narration"],
-		background: home_background,
 		title: homeTexts.title,
 		undertitle: homeTexts.undertitle,
 		text1: homeTexts.text1,
@@ -79,8 +60,6 @@ export const roomsData: Room[] = [
 		number: 1,
 		difficulty: "facile",
 		mapRoom: hall_map,
-		roles: ["game", "narration"],
-		background: hall_background,
 		narrationText: hallTexts.initial,
 		readyText: hallTexts.ready,
 		success: hallTexts.success,
@@ -91,8 +70,6 @@ export const roomsData: Room[] = [
 		number: 2,
 		difficulty: "facile",
 		mapRoom: kitchen_map,
-		roles: ["game", "narration"],
-		background: kitchen_background,
 		narrationText: kitchenTexts.initial,
 		readyText: kitchenTexts.ready,
 		success: kitchenTexts.success,
@@ -103,8 +80,6 @@ export const roomsData: Room[] = [
 		number: 3,
 		difficulty: "facile",
 		mapRoom: library_map,
-		roles: ["game", "narration"],
-		background: library_background,
 		narrationText: libraryTexts.initial,
 		readyText: libraryTexts.ready,
 		success: libraryTexts.success,
@@ -115,8 +90,6 @@ export const roomsData: Room[] = [
 		number: 4,
 		difficulty: "facile",
 		mapRoom: ball_map,
-		roles: ["game", "narration"],
-		background: ball_background,
 		narrationText: ballTexts.initial,
 		readyText: ballTexts.ready,
 		success: ballTexts.success,
@@ -127,8 +100,6 @@ export const roomsData: Room[] = [
 		number: 5,
 		difficulty: "normal",
 		mapRoom: cellar_map,
-		roles: ["game", "narration"],
-		background: cellar_background,
 		narrationText: cellarTexts.initial,
 		readyText: cellarTexts.ready,
 		success: cellarTexts.success,
@@ -139,8 +110,6 @@ export const roomsData: Room[] = [
 		number: 6,
 		difficulty: "normal",
 		mapRoom: pantry_map,
-		roles: ["game", "narration"],
-		background: pantry_background,
 		narrationText: pantryTexts.initial,
 		readyText: pantryTexts.ready,
 		success: pantryTexts.success,
@@ -151,8 +120,6 @@ export const roomsData: Room[] = [
 		number: 7,
 		difficulty: "normal",
 		mapRoom: storage_map,
-		roles: ["game", "narration"],
-		background: storage_background,
 		narrationText: storage_roomTexts.initial,
 		readyText: storage_roomTexts.ready,
 		success: storage_roomTexts.success,
@@ -163,8 +130,6 @@ export const roomsData: Room[] = [
 		number: 8,
 		difficulty: "normal",
 		mapRoom: morgue_map,
-		roles: ["game", "narration"],
-		background: morgue_background,
 		narrationText: morgueTexts.initial,
 		readyText: morgueTexts.ready,
 		success: morgueTexts.success,
@@ -175,8 +140,6 @@ export const roomsData: Room[] = [
 		number: 9,
 		difficulty: "difficle",
 		mapRoom: entrancelab_map,
-		roles: ["game", "narration"],
-		background: entrancelab_background,
 		narrationText: entrancelabTexts.initial,
 		readyText: entrancelabTexts.ready,
 		success: entrancelabTexts.success,
@@ -187,8 +150,6 @@ export const roomsData: Room[] = [
 		number: 10,
 		difficulty: "difficle",
 		mapRoom: office_map,
-		roles: ["game", "narration"],
-		background: office_background,
 		narrationText: officeLaboratoryTexts.initial,
 		readyText: officeLaboratoryTexts.ready,
 		success: officeLaboratoryTexts.success,
@@ -199,8 +160,6 @@ export const roomsData: Room[] = [
 		number: 11,
 		difficulty: "difficle",
 		mapRoom: surgery_map,
-		roles: ["game", "narration"],
-		background: surgery_background,
 		narrationText: surgeryLaboratoryTexts.initial,
 		readyText: surgeryLaboratoryTexts.ready,
 		success: surgeryLaboratoryTexts.success,
@@ -211,8 +170,6 @@ export const roomsData: Room[] = [
 		number: 12,
 		difficulty: "difficle",
 		mapRoom: cuve_map,
-		roles: ["game", "narration"],
-		background: cuve_background,
 		narrationText: cuveLaboratoryTexts.initial,
 		readyText: cuveLaboratoryTexts.ready,
 		success: cuveLaboratoryTexts.success,

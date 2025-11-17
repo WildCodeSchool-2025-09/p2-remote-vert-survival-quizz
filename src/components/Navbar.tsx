@@ -1,11 +1,7 @@
-import type { Room } from "../type/gameDataTypes";
+import type { navBarType } from "../types/navBarTypes";
 import "../styles/navbar.css";
 
-type NavbarProps = {
-	roomData: Room;
-};
-
-function Navbar({ roomData }: NavbarProps) {
+function Navbar({ roomData }: navBarType) {
 	return (
 		<div className="inside-nav">
 			<img src={roomData.mapRoom} alt={roomData.name} className="navbar-map" />

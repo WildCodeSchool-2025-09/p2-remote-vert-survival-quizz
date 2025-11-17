@@ -4,6 +4,43 @@
 	background-size: 100%;
 	background-repeat: no-repeat;
 	background-position: center 30%;
+
+	&.Hall {
+		background-image: url("../assets/img/narration/rooms_backgrounds/hall.png");
+	}
+	&.Kitchen {
+		background-image: url("../assets/img/narration/rooms_backgrounds/kitchen.png");
+	}
+	&.Library {
+		background-image: url("../assets/img/narration/rooms_backgrounds/library.png");
+	}
+	&.Ball {
+		background-image: url("../assets/img/narration/rooms_backgrounds/ball_room.png");
+	}
+	&.Cellar {
+		background-image: url("../assets/img/narration/rooms_backgrounds/cellar.png");
+	}
+	&.Pantry {
+		background-image: url("../assets/img/narration/rooms_backgrounds/pantry.png");
+	}
+	&.Storage {
+		background-image: url("../assets/img/narration/rooms_backgrounds/storage_room.png");
+	}
+	&.Morgue {
+		background-image: url("../assets/img/narration/rooms_backgrounds/the_morgue.png");
+	}
+	&.Labo {
+		background-image: url("../assets/img/narration/rooms_backgrounds/entrancelab.png");
+	}
+	&.Office {
+		background-image: url("../assets/img/narration/rooms_backgrounds/office_laboratory.png");
+	}
+	&.Surgery {
+		background-image: url("../assets/img/narration/rooms_backgrounds/surgery_laboratory.png");
+	}
+	&.Cuve {
+		background-image: url("../assets/img/narration/rooms_backgrounds/cuve_laboratory.png");
+	}
 }
 
 .navbar {

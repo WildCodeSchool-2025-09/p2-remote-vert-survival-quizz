@@ -9,7 +9,7 @@ export interface QuestionType {
 	difficulty: string;
 }
 
-export interface FormatQuestions {
+export interface FormatQuestionsType {
 	question: string;
 	correct: string;
 	answers: string[];
