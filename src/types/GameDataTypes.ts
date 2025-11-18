@@ -18,10 +18,12 @@ export interface CharacterType {
 }
 
 export interface Character {
+	id: number;
 	name: string;
 	image: string;
 	logo_alive?: string;
 	logo_dead?: string;
+	isAlive: boolean;
 }
 
 export interface HomeType {

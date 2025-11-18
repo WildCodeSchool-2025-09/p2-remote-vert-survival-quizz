@@ -1,4 +1,4 @@
-import type { Character, Homepage, Room } from "../types/gameDataTypes";
+import type { Character, Homepage, Room } from "../types/GameDataTypes";
 
 import cellar_map from "../assets/img/navbar/maps/basement/room1.png";
 import pantry_map from "../assets/img/navbar/maps/basement/room2.png";
@@ -178,27 +178,35 @@ export const roomsData: Room[] = [
 ];
 export const charactersData: Character[] = [
 	{
-		name: "Emeric",
-		image: emeric,
-		logo_alive: emeric_logo_alive,
-		logo_dead: emeric_logo_dead,
-	},
-	{
-		name: "Jugurtha",
-		image: jugurtha,
-		logo_alive: jugurtha_logo_alive,
-		logo_dead: jugurtha_logo_dead,
-	},
-	{
-		name: "Lisa",
-		image: lisa,
-		logo_alive: lisa_logo_alive,
-		logo_dead: lisa_logo_dead,
-	},
-	{
+		id: 1,
 		name: "Luna",
 		image: luna,
 		logo_alive: luna_logo_alive,
 		logo_dead: luna_logo_dead,
+		isAlive: true,
+	},
+	{
+		id: 2,
+		name: "Emeric",
+		image: emeric,
+		logo_alive: emeric_logo_alive,
+		logo_dead: emeric_logo_dead,
+		isAlive: true,
+	},
+	{
+		id: 3,
+		name: "Lisa",
+		image: lisa,
+		logo_alive: lisa_logo_alive,
+		logo_dead: lisa_logo_dead,
+		isAlive: true,
+	},
+	{
+		id: 4,
+		name: "Jugurtha",
+		image: jugurtha,
+		logo_alive: jugurtha_logo_alive,
+		logo_dead: jugurtha_logo_dead,
+		isAlive: true,
 	},
 ];
