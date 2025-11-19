@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
-import { charactersData, roomsData } from "../data/Gamedata";
+import { roomsData } from "../data/Gamedata";
 import "../styles/game.css";
 import "../styles/navbar.css";
+import { useCharacter } from "../contexts/CharacterContext";
 import type {
 	DataType,
 	FormatQuestionsType,
@@ -16,7 +17,8 @@ function Game() {
 	const [gamePhase, setGamePhase] = useState("narration");
 	const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 	const [score, setScore] = useState(0);
-	const [charactersAlive, setCharactersAlive] = useState(charactersData);
+
+	const { characters, setCharacters } = useCharacter();
 
 	useEffect(() => {
 		setLoading(true);
@@ -79,7 +81,7 @@ function Game() {
 	const nextPhase = () => {
 		if (gamePhase === "narration") setGamePhase("ready");
 		else if (gamePhase === "ready") setGamePhase("question");
-		else if (gamePhase === "question") setGamePhase("answerNarration");
+		else if (gamePhase === "question") setGamePhase("answer");
 	};
 
 	const nextRoom = () => {
@@ -92,31 +94,23 @@ function Game() {
 		}
 	};
 
-	const quizAnswers = (answer: string) => {
+	const answers = (answer: string) => {
 		setSelectedAnswer(answer);
-		if (
-			answer === currentQuestion.correct &&
-			currentQuestion.level === "facile"
-		) {
-			setScore(score + 5);
-		}
-		if (
-			answer === currentQuestion.correct &&
-			currentQuestion.level === "normal"
-		) {
-			setScore(score + 10);
-		}
-		if (
-			answer === currentQuestion.correct &&
-			currentQuestion.level === "difficile"
-		) {
-			setScore(score + 15);
-		}
-		if (answer !== currentQuestion.correct) {
-			setCharactersAlive((prev) => {
-				const characterAlive = prev.filter((character) => character.isAlive);
-				if (characterAlive.length === 0) return prev;
-				const lastCharacter = characterAlive[characterAlive.length - 1].id;
+		if (answer === currentQuestion.correct) {
+			if (currentQuestion.level === "facile") {
+				setScore(score + 5);
+			}
+			if (currentQuestion.level === "normal") {
+				setScore(score + 10);
+			}
+			if (currentQuestion.level === "difficile") {
+				setScore(score + 15);
+			}
+		} else {
+			setCharacters((prev) => {
+				const characters = prev.filter((character) => character.isAlive);
+				if (characters.length === 0) return prev;
+				const lastCharacter = characters[characters.length - 1].id;
 
 				return prev.map((character) =>
 					character.id === lastCharacter
@@ -126,7 +120,7 @@ function Game() {
 			});
 		}
 		setTimeout(() => {
-			setGamePhase("answerNarration");
+			setGamePhase("answer");
 		}, 1000);
 	};
 
@@ -135,16 +129,12 @@ function Game() {
 	return (
 		<section className={`background-room ${currentNarration.name}`}>
 			<nav className="navbar">
-				<Navbar
-					roomData={currentNarration}
-					charactersAlive={charactersAlive}
-					score={score}
-				/>
+				<Navbar roomData={currentNarration} score={score} />
 			</nav>
 
 			<div className="game-screen">
 				<div className="box-characters">
-					{charactersAlive
+					{characters
 						.filter((character) => character.isAlive)
 						.map((character) => (
 							<img
@@ -192,7 +182,7 @@ function Game() {
 									}`}
 									type="button"
 									key={answer}
-									onClick={() => quizAnswers(answer)}
+									onClick={() => answers(answer)}
 									disabled={selectedAnswer !== null}
 								>
 									{answer}
@@ -202,7 +192,7 @@ function Game() {
 					</article>
 				)}
 
-				{gamePhase === "answerNarration" && (
+				{gamePhase === "answer" && (
 					<article className="narration-phase">
 						<p className="box-narration">
 							{selectedAnswer === currentQuestion.correct

@@ -145,8 +145,6 @@
 }
 
 .button-answers {
-	width: 466px;
-	height: 111px;
 	background-color: var(--box-color);
 	color: var(--light-color);
 	font-family: var(--title-font);

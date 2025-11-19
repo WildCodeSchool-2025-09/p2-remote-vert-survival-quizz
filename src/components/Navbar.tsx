@@ -1,11 +1,19 @@
-import type { navBarType } from "../types/NavBarTypes";
+import type { Room } from "../types/GameDataTypes";
 import "../styles/navbar.css";
+import { useCharacter } from "../contexts/CharacterContext";
 
-function Navbar({ roomData, charactersAlive, score }: navBarType) {
+interface navBarType {
+	roomData: Room;
+	score: number;
+}
+
+function Navbar({ roomData, score }: navBarType) {
+	const { characters } = useCharacter();
+
 	return (
 		<section className="inside-nav">
 			<div className="characters-container">
-				{charactersAlive.map((character) => (
+				{characters.map((character) => (
 					<img
 						key={character.id}
 						src={character.isAlive ? character.logo_alive : character.logo_dead}

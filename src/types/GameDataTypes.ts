@@ -14,7 +14,7 @@ export interface Room {
 }
 
 export interface CharacterType {
-	character: Character;
+	character: Character[];
 }
 
 export interface Character {
