@@ -15,9 +15,14 @@ function Navbar({ roomData, charactersAlive, score }: navBarType) {
 				))}
 			</div>
 
-			<p>{score}</p>
-
-			<img src={roomData.mapRoom} alt={roomData.name} className="navbar-map" />
+			<div className="container-right">
+				<p className="score">{score} pts</p>
+				<img
+					src={roomData.mapRoom}
+					alt={roomData.name}
+					className="navbar-map"
+				/>
+			</div>
 		</section>
 	);
 }

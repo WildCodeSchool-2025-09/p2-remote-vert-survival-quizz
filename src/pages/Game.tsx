@@ -114,8 +114,9 @@ function Game() {
 		}
 		if (answer !== currentQuestion.correct) {
 			setCharactersAlive((prev) => {
-				const charaAlive = prev.filter((character) => character.isAlive);
-				const lastCharacter = charaAlive[charaAlive.length - 1].id;
+				const characterAlive = prev.filter((character) => character.isAlive);
+				if (characterAlive.length === 0) return prev;
+				const lastCharacter = characterAlive[characterAlive.length - 1].id;
 
 				return prev.map((character) =>
 					character.id === lastCharacter
@@ -141,76 +142,83 @@ function Game() {
 				/>
 			</nav>
 
-			<div>
-				{charactersAlive
-					.filter((character) => character.isAlive)
-					.map((character) => (
-						<img
-							key={character.id}
-							src={character.image}
-							alt={character.name}
-						/>
-					))}
-			</div>
-
-			{gamePhase === "narration" && (
-				<article className="narration-phase">
-					<p className="box-narration">{currentNarration?.narrationText}</p>
-					<button className="button-next" type="button" onClick={nextPhase}>
-						Suivant
-					</button>
-				</article>
-			)}
-
-			{gamePhase === "ready" && (
-				<article className="narration-phase">
-					<p className="box-narration">
-						ATTENTION DEFENDS TOI !<br />
-						{currentNarration?.readyText}
-					</p>
-					<button className="button-next" type="button" onClick={nextPhase}>
-						GO !
-					</button>
-				</article>
-			)}
-
-			{gamePhase === "question" && (
-				<article className="narration-question">
-					<h1 className="box-question">{currentQuestion.question}</h1>
-					<div className="box-answers">
-						{currentQuestion.answers.map((answer) => (
-							<button
-								className={`button-answers ${
-									selectedAnswer === null
-										? "answer-default"
-										: answer === currentQuestion.correct
-											? "correct-answer"
-											: "wrong-answer"
-								}`}
-								type="button"
-								key={answer}
-								onClick={() => quizAnswers(answer)}
-								disabled={selectedAnswer !== null}
-							>
-								{answer}
-							</button>
+			<div className="game-screen">
+				<div className="box-characters">
+					{charactersAlive
+						.filter((character) => character.isAlive)
+						.map((character) => (
+							<img
+								className="character"
+								key={character.id}
+								src={character.image}
+								alt={character.name}
+							/>
 						))}
-					</div>
-				</article>
-			)}
+				</div>
 
-			{gamePhase === "answerNarration" && (
-				<article className="narration-phase">
-					<p className="box-narration">
-						{selectedAnswer === currentQuestion.correct
-							? currentNarration.success
-							: currentNarration.failure}
-					</p>
-					<button className="button-next-room" type="button" onClick={nextRoom}>
-						Salle suivante
-					</button>
-				</article>
-			)}
+				{gamePhase === "narration" && (
+					<article className="narration-phase">
+						<p className="box-narration">{currentNarration?.narrationText}</p>
+						<button className="button-next" type="button" onClick={nextPhase}>
+							Suivant
+						</button>
+					</article>
+				)}
+
+				{gamePhase === "ready" && (
+					<article className="narration-phase">
+						<p className="box-narration">
+							ATTENTION DEFENDS TOI !<br />
+							{currentNarration?.readyText}
+						</p>
+						<button className="button-next" type="button" onClick={nextPhase}>
+							GO !
+						</button>
+					</article>
+				)}
+
+				{gamePhase === "question" && (
+					<article className="narration-question">
+						<h1 className="box-question">{currentQuestion.question}</h1>
+						<div className="box-answers">
+							{currentQuestion.answers.map((answer) => (
+								<button
+									className={`button-answers ${
+										selectedAnswer === null
+											? "answer-default"
+											: answer === currentQuestion.correct
+												? "correct-answer"
+												: "wrong-answer"
+									}`}
+									type="button"
+									key={answer}
+									onClick={() => quizAnswers(answer)}
+									disabled={selectedAnswer !== null}
+								>
+									{answer}
+								</button>
+							))}
+						</div>
+					</article>
+				)}
+
+				{gamePhase === "answerNarration" && (
+					<article className="narration-phase">
+						<p className="box-narration">
+							{selectedAnswer === currentQuestion.correct
+								? currentNarration.success
+								: currentNarration.failure}
+						</p>
+						<button
+							className="button-next-room"
+							type="button"
+							onClick={nextRoom}
+						>
+							Salle suivante
+						</button>
+					</article>
+				)}
+			</div>
 		</section>
 	);
 }
