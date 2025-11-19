@@ -1,45 +1,21 @@
-import { useState } from "react";
-import type { Character, Room } from "../types/GameDataTypes";
+import type { navBarType } from "../types/NavBarTypes";
 import "../styles/navbar.css";
 
-type NavbarProps = {
-	roomData: Room;
-	charactersData: Character[];
-};
-
-function Navbar({ roomData, charactersData }: NavbarProps) {
-	/*const [charactersInRoom, setCharactersInRoom] = useState(charactersData);
-
-	const charactersToDisplay = charactersInRoom.map((characterInRoom) => {
-		const fullData = charactersData.find(
-			(character) => character.name === characterInRoom.name,
-		);
-
-		let logoUrl;
-		if (characterInRoom.isAlive) {
-			logoUrl = fullData ? fullData.logo_alive : "";
-		} else {
-			logoUrl = fullData ? fullData.logo_dead : "";
-		}
-
-		return {
-			name: characterInRoom.name,
-			logo: logoUrl,
-		};
-	});*/
-
+function Navbar({ roomData, charactersAlive, score }: navBarType) {
 	return (
 		<section className="inside-nav">
-			{/*<div className="characters-container">
-				{charactersToDisplay.map((character) => (
+			<div className="characters-container">
+				{charactersAlive.map((character) => (
 					<img
-						key={character.name}
-						src={character.logo}
+						key={character.id}
+						src={character.isAlive ? character.logo_alive : character.logo_dead}
 						alt={character.name}
 						className="character-logo-sprite"
 					/>
 				))}
-			</div>*/}
+			</div>
+
+			<p>{score}</p>
 
 			<img src={roomData.mapRoom} alt={roomData.name} className="navbar-map" />
 		</section>

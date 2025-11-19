@@ -14,7 +14,7 @@ function Game() {
 	const [loading, setLoading] = useState(true);
 	const [currentRoom, setCurrentRoom] = useState(1);
 	const [gamePhase, setGamePhase] = useState("narration");
-	const [selectedAnswer, setSelectedAnswer] = useState(null);
+	const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 	const [score, setScore] = useState(0);
 	const [charactersAlive, setCharactersAlive] = useState(charactersData);
 
@@ -92,7 +92,7 @@ function Game() {
 		}
 	};
 
-	const quizAnswers = (answer) => {
+	const quizAnswers = (answer: string) => {
 		setSelectedAnswer(answer);
 		if (
 			answer === currentQuestion.correct &&
@@ -114,9 +114,14 @@ function Game() {
 		}
 		if (answer !== currentQuestion.correct) {
 			setCharactersAlive((prev) => {
-				const updatedCharactersAlive = [...prev];
-				updatedCharactersAlive.pop();
-				return updatedCharactersAlive;
+				const charaAlive = prev.filter((character) => character.isAlive);
+				const lastCharacter = charaAlive[charaAlive.length - 1].id;
+
+				return prev.map((character) =>
+					character.id === lastCharacter
+						? { ...character, isAlive: false }
+						: character,
+				);
 			});
 		}
 		setTimeout(() => {
@@ -129,13 +134,23 @@ function Game() {
 	return (
 		<section className={`background-room ${currentNarration.name}`}>
 			<nav className="navbar">
-				<Navbar roomData={currentNarration} charactersData={charactersAlive} />
+				<Navbar
+					roomData={currentNarration}
+					charactersAlive={charactersAlive}
+					score={score}
+				/>
 			</nav>
 
 			<div>
-				{charactersAlive.map((character) => (
-					<img key={character.id} src={character.image} alt={character.name} />
-				))}
+				{charactersAlive
+					.filter((character) => character.isAlive)
+					.map((character) => (
+						<img
+							key={character.id}
+							src={character.image}
+							alt={character.name}
+						/>
+					))}
 			</div>
 
 			{gamePhase === "narration" && (
