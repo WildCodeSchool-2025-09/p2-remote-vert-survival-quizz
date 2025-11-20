@@ -87,6 +87,35 @@
 	padding: 35px;
 	text-align: justify;
 	margin-top: 80px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	&.joker {
+		text-align: center;
+	}
+}
+
+.jokers-box {
+	display: flex;
+	gap: 5rem;
+	margin-top: 1rem;
+}
+
+.button-joker {
+	background: none;
+	border: none;
+	transform: scale(1.1);
+	transition: transform .2s ease;
+}
+
+.image-joker {
+	width: 5rem;
+	height: auto;
+	background: none;
+	border: none;
+	transform: scale(1.1);
+	transition: transform .2s ease;
 }
 
 .button-next {

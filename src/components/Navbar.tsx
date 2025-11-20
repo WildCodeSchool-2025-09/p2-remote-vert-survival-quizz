@@ -4,7 +4,7 @@ import { useCharacter } from "../contexts/CharacterContext";
 
 interface navBarType {
 	roomData: Room;
-	score: number;
+	score: number[];
 }
 
 function Navbar({ roomData, score }: navBarType) {
@@ -24,7 +24,9 @@ function Navbar({ roomData, score }: navBarType) {
 			</div>
 
 			<div className="container-right">
-				<p className="score">{score} pts</p>
+				<p className="score">
+					{score.reduce((acc, currentValue) => acc + currentValue, 0)} pts
+				</p>
 				<img
 					src={roomData.mapRoom}
 					alt={roomData.name}

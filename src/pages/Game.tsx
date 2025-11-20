@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
-import { roomsData } from "../data/Gamedata";
+import { Jokers, roomsData } from "../data/Gamedata";
 import "../styles/game.css";
 import "../styles/navbar.css";
 import { useCharacter } from "../contexts/CharacterContext";
@@ -16,7 +16,8 @@ function Game() {
 	const [currentRoom, setCurrentRoom] = useState(1);
 	const [gamePhase, setGamePhase] = useState("narration");
 	const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
-	const [score, setScore] = useState(0);
+	const [score, setScore] = useState<number[]>([]);
+	const [jokers, setJokers] = useState([Jokers]);
 
 	const { characters, setCharacters } = useCharacter();
 
@@ -79,7 +80,8 @@ function Game() {
 	const currentQuestion = questions[currentRoom - 1];
 
 	const nextPhase = () => {
-		if (gamePhase === "narration") setGamePhase("ready");
+		if (gamePhase === "narration") setGamePhase("chooseJoker");
+		else if (gamePhase === "chooseJoker") setGamePhase("ready");
 		else if (gamePhase === "ready") setGamePhase("question");
 		else if (gamePhase === "question") setGamePhase("answer");
 	};
@@ -98,16 +100,17 @@ function Game() {
 		setSelectedAnswer(answer);
 		if (answer === currentQuestion.correct) {
 			if (currentQuestion.level === "facile") {
-				setScore(score + 5);
+				setScore([...score, 5]);
 			}
 			if (currentQuestion.level === "normal") {
-				setScore(score + 10);
+				setScore([...score, 10]);
 			}
 			if (currentQuestion.level === "difficile") {
-				setScore(score + 15);
+				setScore([...score, 15]);
 			}
 		} else {
 			setCharacters((prev) => {
+				setScore([...score, 0]);
 				const characters = prev.filter((character) => character.isAlive);
 				if (characters.length === 0) return prev;
 				const lastCharacter = characters[characters.length - 1].id;
@@ -151,6 +154,37 @@ function Game() {
 						<p className="box-narration">{currentNarration?.narrationText}</p>
 						<button className="button-next" type="button" onClick={nextPhase}>
 							Suivant
+						</button>
+					</article>
+				)}
+
+				{gamePhase === "chooseJoker" && (
+					<article className="narration-phase">
+						<div className="box-narration joke">
+							<p>
+								Est-ce que tu veux utiliser un joker ?<br />
+								(Clique sur un joker pour pouvoir l’utiliser !)
+							</p>
+							<div className="jokers-box">
+								{Jokers.map((joker) => (
+									<>
+										<button
+											className="button-joker"
+											key={joker.id}
+											type="button"
+										>
+											<img
+												src={joker.imgWin}
+												alt={joker.name}
+												className="image-joker"
+											/>
+										</button>
+									</>
+								))}
+							</div>
+						</div>
+						<button className="button-next" type="button" onClick={nextPhase}>
+							Passer
 						</button>
 					</article>
 				)}

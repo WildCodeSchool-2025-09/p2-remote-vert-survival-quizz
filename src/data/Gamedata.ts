@@ -26,6 +26,16 @@ import jugurtha_logo_dead from "../assets/img/navbar/characters/dead/jug.png";
 import lisa_logo_dead from "../assets/img/navbar/characters/dead/lisa.png";
 import luna_logo_dead from "../assets/img/navbar/characters/dead/luna.png";
 
+import additional_time_gotten from "../assets/img/jokers/gotten/additional_time.png";
+import change_difficulty_gotten from "../assets/img/jokers/gotten/change_difficulty.png";
+import points_x2_gotten from "../assets/img/jokers/gotten/points_x2.png";
+import shield_gotten from "../assets/img/jokers/gotten/shield.png";
+
+import additional_time_not_gotten from "../assets/img/jokers/not_gotten/additional_time.png";
+import change_difficulty_not_gotten from "../assets/img/jokers/not_gotten/change_difficulty.png";
+import points_x2_not_gotten from "../assets/img/jokers/not_gotten/points_x2.png";
+import shield_not_gotten from "../assets/img/jokers/not_gotten/shield.png";
+
 import {
 	ballTexts,
 	cellarTexts,
@@ -208,5 +218,44 @@ export const charactersData: Character[] = [
 		logo_alive: jugurtha_logo_alive,
 		logo_dead: jugurtha_logo_dead,
 		isAlive: true,
+	},
+];
+
+export const Jokers = [
+	{
+		id: 1,
+		name: "shield",
+		combo: 2,
+		imgWin: shield_gotten,
+		imgNotWin: shield_not_gotten,
+		win: false,
+		use: false,
+	},
+	{
+		id: 2,
+		name: "change difficulty",
+		combo: 4,
+		imgWin: change_difficulty_gotten,
+		imgNotWin: change_difficulty_not_gotten,
+		win: false,
+		use: false,
+	},
+	{
+		id: 3,
+		name: "points x2",
+		combo: 6,
+		imgWin: points_x2_gotten,
+		imgNotWin: points_x2_not_gotten,
+		win: false,
+		use: false,
+	},
+	{
+		id: 4,
+		name: "additional time",
+		combo: 8,
+		imgWin: additional_time_gotten,
+		imgNotWin: additional_time_not_gotten,
+		win: false,
+		use: false,
 	},
 ];
