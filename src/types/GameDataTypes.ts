@@ -14,14 +14,16 @@ export interface Room {
 }
 
 export interface CharacterType {
-	character: Character;
+	character: Character[];
 }
 
 export interface Character {
+	id: number;
 	name: string;
 	image: string;
 	logo_alive?: string;
 	logo_dead?: string;
+	isAlive: boolean;
 }
 
 export interface HomeType {

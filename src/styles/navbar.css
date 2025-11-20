@@ -1,7 +1,8 @@
 .inside-nav {
-	width: 100%;
 	display: flex;
-	justify-content: flex-end;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
 	height: 150px;
 	border-radius: 45px;
 	background-color: #3c3838;
@@ -11,11 +12,36 @@
 .navbar-map {
 	width: 9.9375rem;
 	height: 8.875rem;
-	padding: 5px;
+	padding-top: 12px;
+	padding-right: 20px;
 	transition: all 0.3s ease;
+	transform-origin: top right;
 }
 
 .navbar-map:hover {
-	width: 25rem;
-	height: 23rem;
+	transform: scale(2.5);
+}
+
+.characters-container {
+	display: flex;
+	align-items: center;
+	padding-left: 20px;
+	gap: 20px;
+}
+
+.character-logo-sprite {
+	width: auto;
+	height: 12vh;
+}
+
+.score {
+	font-family: var(--title-font);
+	color: var(--light-color);
+	font-size: 5rem;
+}
+
+.container-right {
+	display: flex;
+	align-items: center;
+	gap: 50px;
 }
