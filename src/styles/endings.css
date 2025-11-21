@@ -1,0 +1,17 @@
+.gameover-screen {
+	background-image: url("/src/assets/img/ending/backgrounds/game_over_all_dead.png");
+	width: 100vw;
+	height: 100vh;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center 30%;
+}
+
+.victory-screen {
+	background-image: url("/src/assets/img/ending/backgrounds/drive_end.png");
+	width: 100vw;
+	height: 100vh;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center 30%;
+}

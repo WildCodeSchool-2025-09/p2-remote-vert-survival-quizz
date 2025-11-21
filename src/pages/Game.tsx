@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Endings from "../components/Endings";
 import Navbar from "../components/Navbar";
 import { roomsData } from "../data/Gamedata";
 import "../styles/game.css";
@@ -17,6 +18,9 @@ function Game() {
 	const [gamePhase, setGamePhase] = useState("narration");
 	const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 	const [score, setScore] = useState(0);
+	const [endingScreen, setEndingScreen] = useState<
+		"gameOver" | "victory" | null
+	>(null);
 
 	const { characters, setCharacters } = useCharacter();
 
@@ -90,12 +94,14 @@ function Game() {
 			setGamePhase("narration");
 			setSelectedAnswer(null);
 		} else {
-			alert("Fin du jeu en construction !");
+			setGamePhase("ending");
+			setEndingScreen("victory");
 		}
 	};
 
 	const answers = (answer: string) => {
 		setSelectedAnswer(answer);
+
 		if (answer === currentQuestion.correct) {
 			if (currentQuestion.level === "facile") {
 				setScore(score + 5);
@@ -106,110 +112,142 @@ function Game() {
 			if (currentQuestion.level === "difficile") {
 				setScore(score + 15);
 			}
+			setTimeout(() => {
+				setGamePhase("answer");
+			}, 1000);
 		} else {
 			setCharacters((prev) => {
-				const characters = prev.filter((character) => character.isAlive);
-				if (characters.length === 0) return prev;
-				const lastCharacter = characters[characters.length - 1].id;
+				const characterAlive = prev.filter((character) => character.isAlive);
+				if (characterAlive.length === 0) return prev;
 
-				return prev.map((character) =>
+				const lastCharacter = characterAlive[characterAlive.length - 1].id;
+
+				const updatedCharStatut = prev.map((character) =>
 					character.id === lastCharacter
 						? { ...character, isAlive: false }
 						: character,
 				);
+
+				const allCharactersDead = updatedCharStatut.every(
+					(character) => !character.isAlive,
+				);
+
+				setTimeout(() => {
+					if (allCharactersDead) {
+						setGamePhase("ending");
+						setEndingScreen("gameOver");
+					} else {
+						setGamePhase("answer");
+					}
+				}, 1000);
+
+				return updatedCharStatut;
 			});
 		}
-		setTimeout(() => {
-			setGamePhase("answer");
-		}, 1000);
 	};
 
 	if (!currentNarration) return <p>Salle introuvable</p>;
 
 	return (
-		<section className={`background-room ${currentNarration.name}`}>
-			<nav className="navbar">
-				<Navbar roomData={currentNarration} score={score} />
-			</nav>
+		<>
+			{gamePhase === "ending" ? (
+				<Endings endingScreen={endingScreen} score={score} />
+			) : (
+				<section className={`background-room ${currentNarration.name}`}>
+					<nav className="navbar">
+						<Navbar roomData={currentNarration} score={score} />
+					</nav>
 
-			<div className="game-screen">
-				<div className="box-characters">
-					{characters
-						.filter((character) => character.isAlive)
-						.map((character) => (
-							<img
-								className="character"
-								key={character.id}
-								src={character.image}
-								alt={character.name}
-							/>
-						))}
-				</div>
-
-				{gamePhase === "narration" && (
-					<article className="narration-phase">
-						<p className="box-narration">{currentNarration?.narrationText}</p>
-						<button className="button-next" type="button" onClick={nextPhase}>
-							Suivant
-						</button>
-					</article>
-				)}
-
-				{gamePhase === "ready" && (
-					<article className="narration-phase">
-						<p className="box-narration">
-							ATTENTION DEFENDS TOI !<br />
-							{currentNarration?.readyText}
-						</p>
-						<button className="button-next" type="button" onClick={nextPhase}>
-							GO !
-						</button>
-					</article>
-				)}
-
-				{gamePhase === "question" && (
-					<article className="narration-question">
-						<h1 className="box-question">{currentQuestion.question}</h1>
-						<div className="box-answers">
-							{currentQuestion.answers.map((answer) => (
-								<button
-									className={`button-answers ${
-										selectedAnswer === null
-											? "answer-default"
-											: answer === currentQuestion.correct
-												? "correct-answer"
-												: "wrong-answer"
-									}`}
-									type="button"
-									key={answer}
-									onClick={() => answers(answer)}
-									disabled={selectedAnswer !== null}
-								>
-									{answer}
-								</button>
-							))}
+					<div className="game-screen">
+						<div className="box-characters">
+							{characters
+								.filter((character) => character.isAlive)
+								.map((character) => (
+									<img
+										className="character"
+										key={character.id}
+										src={character.image}
+										alt={character.name}
+									/>
+								))}
 						</div>
-					</article>
-				)}
 
-				{gamePhase === "answer" && (
-					<article className="narration-phase">
-						<p className="box-narration">
-							{selectedAnswer === currentQuestion.correct
-								? currentNarration.success
-								: currentNarration.failure}
-						</p>
-						<button
-							className="button-next-room"
-							type="button"
-							onClick={nextRoom}
-						>
-							Salle suivante
-						</button>
-					</article>
-				)}
-			</div>
-		</section>
+						{gamePhase === "narration" && (
+							<article className="narration-phase">
+								<p className="box-narration">
+									{currentNarration?.narrationText}
+								</p>
+								<button
+									className="button-next"
+									type="button"
+									onClick={nextPhase}
+								>
+									Suivant
+								</button>
+							</article>
+						)}
+
+						{gamePhase === "ready" && (
+							<article className="narration-phase">
+								<p className="box-narration">
+									ATTENTION DEFENDS TOI !<br />
+									{currentNarration?.readyText}
+								</p>
+								<button
+									className="button-next"
+									type="button"
+									onClick={nextPhase}
+								>
+									GO !
+								</button>
+							</article>
+						)}
+
+						{gamePhase === "question" && (
+							<article className="narration-question">
+								<h1 className="box-question">{currentQuestion.question}</h1>
+								<div className="box-answers">
+									{currentQuestion.answers.map((answer) => (
+										<button
+											className={`button-answers ${
+												selectedAnswer === null
+													? "answer-default"
+													: answer === currentQuestion.correct
+														? "correct-answer"
+														: "wrong-answer"
+											}`}
+											type="button"
+											key={answer}
+											onClick={() => answers(answer)}
+											disabled={selectedAnswer !== null}
+										>
+											{answer}
+										</button>
+									))}
+								</div>
+							</article>
+						)}
+
+						{gamePhase === "answer" && (
+							<article className="narration-phase">
+								<p className="box-narration">
+									{selectedAnswer === currentQuestion.correct
+										? currentNarration.success
+										: currentNarration.failure}
+								</p>
+								<button
+									className="button-next-room"
+									type="button"
+									onClick={nextRoom}
+								>
+									Salle suivante
+								</button>
+							</article>
+						)}
+					</div>
+				</section>
+			)}
+		</>
 	);
 }
 
