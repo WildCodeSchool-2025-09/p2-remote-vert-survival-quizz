@@ -4,6 +4,7 @@ import { Jokers, roomsData } from "../data/Gamedata";
 import "../styles/game.css";
 import "../styles/navbar.css";
 import { useCharacter } from "../contexts/CharacterContext";
+import type { Joker } from "../types/GameDataTypes";
 import type {
 	DataType,
 	FormatQuestionsType,
@@ -17,7 +18,8 @@ function Game() {
 	const [gamePhase, setGamePhase] = useState("narration");
 	const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 	const [score, setScore] = useState<number[]>([]);
-	const [jokers, setJokers] = useState([Jokers]);
+	const [jokers, setJokers] = useState<Joker[]>(Jokers);
+	const [selectedJoker, setSelectedJoker] = useState(null);
 
 	const { characters, setCharacters } = useCharacter();
 
@@ -80,8 +82,13 @@ function Game() {
 	const currentQuestion = questions[currentRoom - 1];
 
 	const nextPhase = () => {
-		if (gamePhase === "narration") setGamePhase("chooseJoker");
-		else if (gamePhase === "chooseJoker") setGamePhase("ready");
+		if (gamePhase === "narration") {
+			if (jokers.some((joker) => joker.win)) {
+				setGamePhase("chooseJoker");
+			} else {
+				setGamePhase("ready");
+			}
+		} else if (gamePhase === "chooseJoker") setGamePhase("ready");
 		else if (gamePhase === "ready") setGamePhase("question");
 		else if (gamePhase === "question") setGamePhase("answer");
 	};
@@ -98,19 +105,20 @@ function Game() {
 
 	const answers = (answer: string) => {
 		setSelectedAnswer(answer);
+
 		if (answer === currentQuestion.correct) {
 			if (currentQuestion.level === "facile") {
-				setScore([...score, 5]);
+				score.push(5);
 			}
 			if (currentQuestion.level === "normal") {
-				setScore([...score, 10]);
+				score.push(10);
 			}
 			if (currentQuestion.level === "difficile") {
-				setScore([...score, 15]);
+				score.push(15);
 			}
 		} else {
 			setCharacters((prev) => {
-				setScore([...score, 0]);
+				score.push(0);
 				const characters = prev.filter((character) => character.isAlive);
 				if (characters.length === 0) return prev;
 				const lastCharacter = characters[characters.length - 1].id;
@@ -122,9 +130,52 @@ function Game() {
 				);
 			});
 		}
+
+		setScore(score);
+
+		const goodAnswerCombo: number[] = [];
+		let currentGoodAnswerCombo = 0;
+
+		for (let i = 0; i < score.length; i++) {
+			const pts = score[i];
+			if (pts > 0) {
+				currentGoodAnswerCombo++;
+			} else if (currentGoodAnswerCombo > 0) {
+				goodAnswerCombo.push(currentGoodAnswerCombo);
+				currentGoodAnswerCombo = 0;
+			}
+		}
+
+		if (currentGoodAnswerCombo > 0)
+			goodAnswerCombo.push(currentGoodAnswerCombo);
+
+		const unlockableCombos = [2, 4, 6, 8];
+		const combosWon: number[] = [];
+
+		for (let i = 0; i < goodAnswerCombo.length; i++) {
+			const currentComboLength = goodAnswerCombo[i];
+			for (let j = 0; j < unlockableCombos.length; j++) {
+				const requiredCombo = unlockableCombos[j];
+				if (currentComboLength >= requiredCombo) {
+					combosWon.push(requiredCombo);
+				}
+			}
+		}
+
+		setJokers((prev) =>
+			prev.map((joker) =>
+				combosWon.includes(joker.combo) ? { ...joker, win: true } : joker,
+			),
+		);
+
 		setTimeout(() => {
 			setGamePhase("answer");
 		}, 1000);
+	};
+
+	const validationUseJoker = () => {
+		setGamePhase("ready");
+		setJokers((prev) => prev.map((joker) => ({ ...joker, use: true })));
 	};
 
 	if (!currentNarration) return <p>Salle introuvable</p>;
@@ -160,32 +211,68 @@ function Game() {
 
 				{gamePhase === "chooseJoker" && (
 					<article className="narration-phase">
-						<div className="box-narration joke">
+						<div className="box-narration joker">
 							<p>
 								Est-ce que tu veux utiliser un joker ?<br />
 								(Clique sur un joker pour pouvoir l’utiliser !)
 							</p>
 							<div className="jokers-box">
-								{Jokers.map((joker) => (
-									<>
-										<button
-											className="button-joker"
-											key={joker.id}
-											type="button"
-										>
-											<img
-												src={joker.imgWin}
-												alt={joker.name}
-												className="image-joker"
-											/>
-										</button>
-									</>
+								{jokers.map((joker) => (
+									<button
+										className="button-joker"
+										key={joker.id}
+										type="button"
+										onClick={() => {
+											setGamePhase("jokerValidation");
+											setSelectedJoker(joker);
+										}}
+										disabled={!joker.win || (joker.win && joker.use)}
+									>
+										<img
+											src={
+												joker.win && !joker.use ? joker.imgWin : joker.imgNotWin
+											}
+											alt={joker.name}
+											className="image-joker"
+										/>
+									</button>
 								))}
 							</div>
 						</div>
 						<button className="button-next" type="button" onClick={nextPhase}>
 							Passer
 						</button>
+					</article>
+				)}
+
+				{gamePhase === "jokerValidation" && (
+					<article className="narration-phase">
+						<p className="box-narration box-selected-joker joker">
+							Es-tu sûr de vouloir utiliser ce joker ?
+							<img
+								className="selected-joker"
+								src={selectedJoker.imgWin}
+								alt={selectedJoker.name}
+							/>
+						</p>
+						<div className="box-oui-non">
+							<button
+								type="button"
+								className="yes"
+								onClick={validationUseJoker}
+							>
+								OUI
+							</button>
+							<button
+								type="button"
+								className="no"
+								onClick={() => {
+									setGamePhase("chooseJoker");
+								}}
+							>
+								NON
+							</button>
+						</div>
 					</article>
 				)}
 

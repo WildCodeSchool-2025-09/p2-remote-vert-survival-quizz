@@ -26,6 +26,16 @@ export interface Character {
 	isAlive: boolean;
 }
 
+export interface Joker {
+	id: number;
+	name: string;
+	combo: number;
+	imgWin: string;
+	imgNotWin: string;
+	win: boolean;
+	use: boolean;
+}
+
 export interface HomeType {
 	room: Homepage;
 }

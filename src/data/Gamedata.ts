@@ -1,4 +1,4 @@
-import type { Character, Homepage, Room } from "../types/GameDataTypes";
+import type { Character, Homepage, Joker, Room } from "../types/GameDataTypes";
 
 import cellar_map from "../assets/img/navbar/maps/basement/room1.png";
 import pantry_map from "../assets/img/navbar/maps/basement/room2.png";
@@ -221,7 +221,7 @@ export const charactersData: Character[] = [
 	},
 ];
 
-export const Jokers = [
+export const Jokers: Joker[] = [
 	{
 		id: 1,
 		name: "shield",

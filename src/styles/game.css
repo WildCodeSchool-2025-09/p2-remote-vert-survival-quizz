@@ -94,6 +94,17 @@
 	&.joker {
 		text-align: center;
 	}
+
+	&.box-selected-joker {
+		width: 30rem;
+		height: auto;
+	}
+}
+
+.selected-joker {
+	width: 7rem;
+	height: auto;
+	margin-top: 2rem;
 }
 
 .jokers-box {
@@ -107,6 +118,7 @@
 	border: none;
 	transform: scale(1.1);
 	transition: transform .2s ease;
+	cursor: pointer;
 }
 
 .image-joker {
@@ -116,6 +128,36 @@
 	border: none;
 	transform: scale(1.1);
 	transition: transform .2s ease;
+}
+
+.box-oui-non {
+	display: flex;
+	gap: 1.5rem;
+	margin-top: -4rem;
+}
+
+.yes {
+	width: 11rem;
+	height: 5rem;
+	z-index: 1;
+	border-radius: 3rem;
+	border: none;
+	font-family: var(--text-font);
+	font-size: 2rem;
+	color: var(--light-color);
+	background-color: var(--primary-color);
+}
+
+.no {
+	width: 11rem;
+	height: 5rem;
+	z-index: 1;
+	border-radius: 3rem;
+	border: none;
+	font-family: var(--text-font);
+	font-size: 2rem;
+	color: var(--light-color);
+	background-color: var(--primary-color);
 }
 
 .button-next {
