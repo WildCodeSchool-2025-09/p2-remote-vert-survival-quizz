@@ -98,6 +98,14 @@ function Game() {
 			setCurrentRoom(currentRoom + 1);
 			setGamePhase("narration");
 			setSelectedAnswer(null);
+			setJokers((prev) =>
+				prev.map((joker) =>
+					selectedJoker && joker.id === selectedJoker.id
+						? { ...joker, win: false }
+						: joker,
+				),
+			);
+			setSelectedJoker(null);
 		} else {
 			alert("Fin du jeu en construction !");
 		}
@@ -106,7 +114,12 @@ function Game() {
 	const answers = (answer: string) => {
 		setSelectedAnswer(answer);
 
-		if (answer === currentQuestion.correct) {
+		if (
+			answer ===
+			(jokers[1].use && jokers[1].win
+				? easyQuestion.correct
+				: currentQuestion.correct)
+		) {
 			if (currentQuestion.level === "facile") {
 				score.push(5);
 			}
@@ -117,14 +130,14 @@ function Game() {
 				score.push(15);
 			}
 		} else {
+			score.push(0);
 			setCharacters((prev) => {
-				score.push(0);
 				const characters = prev.filter((character) => character.isAlive);
 				if (characters.length === 0) return prev;
 				const lastCharacter = characters[characters.length - 1].id;
 
 				return prev.map((character) =>
-					character.id === lastCharacter
+					character.id === lastCharacter && !(jokers[0].use && jokers[0].win)
 						? { ...character, isAlive: false }
 						: character,
 				);
@@ -164,7 +177,9 @@ function Game() {
 
 		setJokers((prev) =>
 			prev.map((joker) =>
-				combosWon.includes(joker.combo) ? { ...joker, win: true } : joker,
+				combosWon.includes(joker.combo) && !joker.use
+					? { ...joker, win: true }
+					: joker,
 			),
 		);
 
@@ -175,10 +190,18 @@ function Game() {
 
 	const validationUseJoker = () => {
 		setGamePhase("ready");
-		setJokers((prev) => prev.map((joker) => ({ ...joker, use: true })));
+		setJokers((prev) =>
+			prev.map((joker) =>
+				joker.id === selectedJoker.id ? { ...joker, use: true } : joker,
+			),
+		);
 	};
 
 	if (!currentNarration) return <p>Salle introuvable</p>;
+
+	const easyQuestion = questions.find(
+		(question) => question.level === "facile",
+	);
 
 	return (
 		<section className={`background-room ${currentNarration.name}`}>
@@ -218,24 +241,39 @@ function Game() {
 							</p>
 							<div className="jokers-box">
 								{jokers.map((joker) => (
-									<button
-										className="button-joker"
-										key={joker.id}
-										type="button"
-										onClick={() => {
-											setGamePhase("jokerValidation");
-											setSelectedJoker(joker);
-										}}
-										disabled={!joker.win || (joker.win && joker.use)}
-									>
-										<img
-											src={
-												joker.win && !joker.use ? joker.imgWin : joker.imgNotWin
-											}
-											alt={joker.name}
-											className="image-joker"
-										/>
-									</button>
+									<>
+										<button
+											className="button-joker"
+											key={joker.id}
+											type="button"
+											onClick={() => {
+												setGamePhase("jokerValidation");
+												setSelectedJoker(joker);
+											}}
+											disabled={!joker.win || (joker.win && joker.use)}
+										>
+											<img
+												src={
+													joker.win && !joker.use
+														? joker.imgWin
+														: joker.imgNotWin
+												}
+												alt={joker.name}
+												className="image-joker"
+											/>
+										</button>
+										<div key={joker.id} className="info-wrapper">
+											<p
+												key={joker.id}
+												className="infobulle"
+												data-joker-id={joker.id}
+											>
+												{" "}
+												i{" "}
+											</p>
+											<p className="info-text"> blabla </p>
+										</div>
+									</>
 								))}
 							</div>
 						</div>
@@ -290,14 +328,24 @@ function Game() {
 
 				{gamePhase === "question" && (
 					<article className="narration-question">
-						<h1 className="box-question">{currentQuestion.question}</h1>
+						<h1 className="box-question">
+							{jokers[1].use && jokers[1].win
+								? easyQuestion.question
+								: currentQuestion.question}
+						</h1>
 						<div className="box-answers">
-							{currentQuestion.answers.map((answer) => (
+							{(jokers[1].use && jokers[1].win
+								? easyQuestion.answers
+								: currentQuestion.answers
+							).map((answer) => (
 								<button
 									className={`button-answers ${
 										selectedAnswer === null
 											? "answer-default"
-											: answer === currentQuestion.correct
+											: answer ===
+													(jokers[1].use && jokers[1].win
+														? easyQuestion.correct
+														: currentQuestion.correct)
 												? "correct-answer"
 												: "wrong-answer"
 									}`}
@@ -316,7 +364,10 @@ function Game() {
 				{gamePhase === "answer" && (
 					<article className="narration-phase">
 						<p className="box-narration">
-							{selectedAnswer === currentQuestion.correct
+							{selectedAnswer ===
+							(jokers[1].use && jokers[1].win
+								? easyQuestion.correct
+								: currentQuestion.correct)
 								? currentNarration.success
 								: currentNarration.failure}
 						</p>

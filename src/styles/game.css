@@ -75,7 +75,7 @@
 
 .box-narration {
 	min-width: 50%;
-	max-width: 55%;
+	max-width: 75%;
 	background-color: var(--box-color);
 	color: var(--light-color);
 	font-family: var(--text-font);
@@ -130,10 +130,22 @@
 	transition: transform .2s ease;
 }
 
+.infobulle {
+	width: 30px;
+	height: 30px;
+	margin-top: 0px;
+	margin-left: -88px;
+	border-radius: 50%;
+	background-color: black;
+	font: var(--text-font);
+	color: var(--light-color);
+}
+
 .box-oui-non {
 	display: flex;
 	gap: 1.5rem;
 	margin-top: -4rem;
+	cursor: pointer;
 }
 
 .yes {
