@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
-import { Jokers, roomsData } from "../data/Gamedata";
+import { jokersData, roomsData } from "../data/GameData";
 import "../styles/game.css";
 import "../styles/navbar.css";
 import { useCharacter } from "../contexts/CharacterContext";
@@ -18,7 +18,7 @@ function Game() {
 	const [gamePhase, setGamePhase] = useState("narration");
 	const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 	const [score, setScore] = useState<number[]>([]);
-	const [jokers, setJokers] = useState<Joker[]>(Jokers);
+	const [jokers, setJokers] = useState<Joker[]>(jokersData);
 	const [selectedJoker, setSelectedJoker] = useState<Joker | null>(null);
 
 	const { characters, setCharacters } = useCharacter();
@@ -83,7 +83,7 @@ function Game() {
 
 	const nextPhase = () => {
 		if (gamePhase === "narration") {
-			if (jokers.some((joker) => joker.win)) {
+			if (jokers.some((joker) => joker.gotten)) {
 				setGamePhase("chooseJoker");
 			} else {
 				setGamePhase("ready");
@@ -101,7 +101,7 @@ function Game() {
 			setJokers((prev) =>
 				prev.map((joker) =>
 					selectedJoker && joker.id === selectedJoker.id
-						? { ...joker, win: false }
+						? { ...joker, gotten: false }
 						: joker,
 				),
 			);
@@ -118,26 +118,26 @@ function Game() {
 
 		if (
 			answer ===
-			(jokers[1].use && jokers[1].win
+			(jokers[1].used && jokers[1].gotten
 				? easyQuestion.correct
 				: currentQuestion.correct)
 		) {
 			if (currentQuestion.level === "facile") {
-				if (jokers[2].use && jokers[2].win) {
+				if (jokers[2].used && jokers[2].gotten) {
 					score.push(10);
 				} else {
 					score.push(5);
 				}
 			}
 			if (currentQuestion.level === "normal") {
-				if (jokers[2].use && jokers[2].win) {
+				if (jokers[2].used && jokers[2].gotten) {
 					score.push(20);
 				} else {
 					score.push(10);
 				}
 			}
 			if (currentQuestion.level === "difficile") {
-				if (jokers[2].use && jokers[2].win) {
+				if (jokers[2].used && jokers[2].gotten) {
 					score.push(30);
 				} else {
 					score.push(15);
@@ -151,7 +151,8 @@ function Game() {
 				const lastCharacter = characters[characters.length - 1].id;
 
 				return prev.map((character) =>
-					character.id === lastCharacter && !(jokers[0].use && jokers[0].win)
+					character.id === lastCharacter &&
+					!(jokers[0].used && jokers[0].gotten)
 						? { ...character, isAlive: false }
 						: character,
 				);
@@ -191,8 +192,8 @@ function Game() {
 
 		setJokers((prev) =>
 			prev.map((joker) =>
-				combosWon.includes(joker.combo) && !joker.use
-					? { ...joker, win: true }
+				combosWon.includes(joker.combo) && !joker.used
+					? { ...joker, gotten: true }
 					: joker,
 			),
 		);
@@ -207,7 +208,7 @@ function Game() {
 		setGamePhase("ready");
 		setJokers((prev) =>
 			prev.map((joker) =>
-				joker.id === selectedJoker.id ? { ...joker, use: true } : joker,
+				joker.id === selectedJoker.id ? { ...joker, used: true } : joker,
 			),
 		);
 	};
@@ -270,13 +271,13 @@ function Game() {
 												setGamePhase("jokerValidation");
 												setSelectedJoker(joker);
 											}}
-											disabled={!joker.win || (joker.win && joker.use)}
+											disabled={!joker.gotten || (joker.gotten && joker.used)}
 										>
 											<img
 												src={
-													joker.win && !joker.use
-														? joker.imgWin
-														: joker.imgNotWin
+													joker.gotten && !joker.used
+														? joker.img_gotten
+														: joker.img_not_gotten
 												}
 												alt={joker.name}
 												className="image-joker"
@@ -310,7 +311,7 @@ function Game() {
 							{selectedJoker && (
 								<img
 									className="selected-joker"
-									src={selectedJoker.imgWin}
+									src={selectedJoker.img_gotten}
 									alt={selectedJoker.name}
 								/>
 							)}
@@ -352,12 +353,12 @@ function Game() {
 				{gamePhase === "question" && (
 					<article className="narration-question">
 						<h1 className="box-question">
-							{jokers[1].use && jokers[1].win
+							{jokers[1].used && jokers[1].gotten
 								? easyQuestion.question
 								: currentQuestion.question}
 						</h1>
 						<div className="box-answers">
-							{(jokers[1].use && jokers[1].win
+							{(jokers[1].used && jokers[1].gotten
 								? easyQuestion.answers
 								: currentQuestion.answers
 							).map((answer) => (
@@ -366,7 +367,7 @@ function Game() {
 										selectedAnswer === null
 											? "answer-default"
 											: answer ===
-													(jokers[1].use && jokers[1].win
+													(jokers[1].used && jokers[1].gotten
 														? easyQuestion.correct
 														: currentQuestion.correct)
 												? "correct-answer"
@@ -388,7 +389,7 @@ function Game() {
 					<article className="narration-phase">
 						<p className="box-narration">
 							{selectedAnswer ===
-							(jokers[1].use && jokers[1].win
+							(jokers[1].used && jokers[1].gotten
 								? easyQuestion.correct
 								: currentQuestion.correct)
 								? currentNarration.success

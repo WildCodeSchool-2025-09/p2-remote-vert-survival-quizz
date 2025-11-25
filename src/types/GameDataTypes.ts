@@ -30,11 +30,11 @@ export interface Joker {
 	id: number;
 	name: string;
 	combo: number;
-	imgWin: string;
-	imgNotWin: string;
+	img_gotten: string;
+	img_not_gotten: string;
 	text: string;
-	win: boolean;
-	use: boolean;
+	gotten: boolean;
+	used: boolean;
 }
 
 export interface HomeType {

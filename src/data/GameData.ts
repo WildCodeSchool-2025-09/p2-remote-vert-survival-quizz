@@ -52,7 +52,7 @@ import {
 	surgeryLaboratoryTexts,
 } from "./NarrationData";
 
-export const HomepageData: Homepage[] = [
+export const homepageData: Homepage[] = [
 	{
 		name: "HomeStart",
 		number: 0,
@@ -221,45 +221,45 @@ export const charactersData: Character[] = [
 	},
 ];
 
-export const Jokers: Joker[] = [
+export const jokersData: Joker[] = [
 	{
 		id: 1,
 		name: "shield",
 		combo: 2,
-		imgWin: shield_gotten,
-		imgNotWin: shield_not_gotten,
+		img_gotten: shield_gotten,
+		img_not_gotten: shield_not_gotten,
 		text: "Aucune perte en cas de mauvaise réponse.",
-		win: false,
-		use: false,
+		gotten: false,
+		used: false,
 	},
 	{
 		id: 2,
 		name: "change difficulty",
 		combo: 4,
-		imgWin: change_difficulty_gotten,
-		imgNotWin: change_difficulty_not_gotten,
+		img_gotten: change_difficulty_gotten,
+		img_not_gotten: change_difficulty_not_gotten,
 		text: "Change le niveau de difficulté de la question actuelle.",
-		win: false,
-		use: false,
+		gotten: false,
+		used: false,
 	},
 	{
 		id: 3,
 		name: "points x2",
 		combo: 6,
-		imgWin: points_x2_gotten,
-		imgNotWin: points_x2_not_gotten,
+		img_gotten: points_x2_gotten,
+		img_not_gotten: points_x2_not_gotten,
 		text: "Multiplie tes points obtenus par 2 pour la question actuelle.",
-		win: false,
-		use: false,
+		gotten: false,
+		used: false,
 	},
 	{
 		id: 4,
 		name: "additional time",
 		combo: 8,
-		imgWin: additional_time_gotten,
-		imgNotWin: additional_time_not_gotten,
+		img_gotten: additional_time_gotten,
+		img_not_gotten: additional_time_not_gotten,
 		text: "Ajoute 10 secondes de réflexion à cette question.",
-		win: false,
-		use: false,
+		gotten: false,
+		used: false,
 	},
 ];

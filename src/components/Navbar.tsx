@@ -27,7 +27,7 @@ function Navbar({ roomData, score, selectedJoker }: navBarType) {
 			{selectedJoker && (
 				<img
 					className="navbar-joker"
-					src={selectedJoker.imgWin}
+					src={selectedJoker.img_gotten}
 					alt={selectedJoker.name}
 				/>
 			)}
