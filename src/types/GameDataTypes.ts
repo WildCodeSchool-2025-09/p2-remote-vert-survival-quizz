@@ -32,6 +32,7 @@ export interface Joker {
 	combo: number;
 	imgWin: string;
 	imgNotWin: string;
+	text: string;
 	win: boolean;
 	use: boolean;
 }

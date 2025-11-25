@@ -19,7 +19,7 @@ function Game() {
 	const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 	const [score, setScore] = useState<number[]>([]);
 	const [jokers, setJokers] = useState<Joker[]>(Jokers);
-	const [selectedJoker, setSelectedJoker] = useState(null);
+	const [selectedJoker, setSelectedJoker] = useState<Joker | null>(null);
 
 	const { characters, setCharacters } = useCharacter();
 
@@ -114,6 +114,8 @@ function Game() {
 	const answers = (answer: string) => {
 		setSelectedAnswer(answer);
 
+		if (!easyQuestion) return <p>Aucune question facile trouvée</p>;
+
 		if (
 			answer ===
 			(jokers[1].use && jokers[1].win
@@ -121,13 +123,25 @@ function Game() {
 				: currentQuestion.correct)
 		) {
 			if (currentQuestion.level === "facile") {
-				score.push(5);
+				if (jokers[2].use && jokers[2].win) {
+					score.push(10);
+				} else {
+					score.push(5);
+				}
 			}
 			if (currentQuestion.level === "normal") {
-				score.push(10);
+				if (jokers[2].use && jokers[2].win) {
+					score.push(20);
+				} else {
+					score.push(10);
+				}
 			}
 			if (currentQuestion.level === "difficile") {
-				score.push(15);
+				if (jokers[2].use && jokers[2].win) {
+					score.push(30);
+				} else {
+					score.push(15);
+				}
 			}
 		} else {
 			score.push(0);
@@ -189,6 +203,7 @@ function Game() {
 	};
 
 	const validationUseJoker = () => {
+		if (!selectedJoker) return;
 		setGamePhase("ready");
 		setJokers((prev) =>
 			prev.map((joker) =>
@@ -197,16 +212,21 @@ function Game() {
 		);
 	};
 
-	if (!currentNarration) return <p>Salle introuvable</p>;
-
 	const easyQuestion = questions.find(
 		(question) => question.level === "facile",
 	);
 
+	if (!currentNarration) return <p>Salle introuvable</p>;
+	if (!easyQuestion) return <p>Aucune question facile trouvée</p>;
+
 	return (
 		<section className={`background-room ${currentNarration.name}`}>
 			<nav className="navbar">
-				<Navbar roomData={currentNarration} score={score} />
+				<Navbar
+					roomData={currentNarration}
+					score={score}
+					selectedJoker={selectedJoker}
+				/>
 			</nav>
 
 			<div className="game-screen">
@@ -271,7 +291,7 @@ function Game() {
 												{" "}
 												i{" "}
 											</p>
-											<p className="info-text"> blabla </p>
+											<p className="info-text"> {joker.text}</p>
 										</div>
 									</>
 								))}
@@ -287,11 +307,13 @@ function Game() {
 					<article className="narration-phase">
 						<p className="box-narration box-selected-joker joker">
 							Es-tu sûr de vouloir utiliser ce joker ?
-							<img
-								className="selected-joker"
-								src={selectedJoker.imgWin}
-								alt={selectedJoker.name}
-							/>
+							{selectedJoker && (
+								<img
+									className="selected-joker"
+									src={selectedJoker.imgWin}
+									alt={selectedJoker.name}
+								/>
+							)}
 						</p>
 						<div className="box-oui-non">
 							<button
@@ -306,6 +328,7 @@ function Game() {
 								className="no"
 								onClick={() => {
 									setGamePhase("chooseJoker");
+									setSelectedJoker(null);
 								}}
 							>
 								NON

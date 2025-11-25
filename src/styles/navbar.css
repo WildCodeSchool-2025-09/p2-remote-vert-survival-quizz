@@ -45,3 +45,8 @@
 	align-items: center;
 	gap: 50px;
 }
+
+.navbar-joker {
+	width: 5rem;
+	height: auto;
+}
