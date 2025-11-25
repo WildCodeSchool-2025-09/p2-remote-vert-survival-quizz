@@ -189,7 +189,7 @@ export const cuveLaboratoryTexts: RoomNarration = {
 	  Ce qui restait du groupe pouvait-il cependant échapper aux flammes ?`,
 };
 export const victoryTexts: VictoryNarration = {
-	initial: "Bravo!!!",
+	initial: "VICTOIRE !",
 	succes: `L’aube pointait enfin, douce et pâle, effleurant le ciel d’un gris lavande où s’éteignaient les dernières ombres de la nuit.
 	La malédiction du Manoir Blackwood n’était plus qu’un mauvais souvenir.
 	Le calme revenu avait quelque chose d’irréel, un silence plein, presque apaisant. Le van s’éloignait lentement de l’allée, ses phares glissant sur les herbes folles encore couvertes de rosée. À l’arrière, personne ne parlait, ils se contentaient de respirer, de sentir la fatigue se mêler à un étrange bonheur d’être encore en vie.

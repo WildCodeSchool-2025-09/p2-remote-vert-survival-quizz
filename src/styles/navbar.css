@@ -9,6 +9,11 @@
 	opacity: 90%;
 }
 
+.navbar {
+	position: relative;
+	z-index: 10;
+}
+
 .navbar-map {
 	width: 9.9375rem;
 	height: 8.875rem;
@@ -16,10 +21,13 @@
 	padding-right: 20px;
 	transition: all 0.3s ease;
 	transform-origin: top right;
+	z-index: 20;
+	position: relative;
 }
 
 .navbar-map:hover {
 	transform: scale(2.5);
+	z-index: 999;
 }
 
 .characters-container {

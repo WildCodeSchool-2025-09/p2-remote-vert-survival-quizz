@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router";
+import medal from "../assets/img/ending/scores/medals/gold.png";
+import { useCharacter } from "../contexts/CharacterContext";
 import { victoryTexts } from "../data/NarrationData";
 import "../styles/endings.css";
 
@@ -11,30 +13,68 @@ interface EndingScreenProps {
 }
 
 function Endings({ endingScreen, score }: EndingScreenProps) {
-	const [victoryPhase, setVictoryPhase] = useState("victoryNarration");
-	const [currentScore, setCurrentScore] = useState(0);
+	const [victoryPhase, setVictoryPhase] = useState("victoryScreen");
 	const [inputText, setInputText] = useState<string>("");
 	const [scoreBoardList, setScoreBoardList] = useState([
-		{ id: 1, name: "NoobDemonSlayer", score: 60 },
-		{ id: 2, name: "The clever one", score: 55 },
-		{ id: 3, name: "El Jug", score: 50 },
-		{ id: 4, name: "AlithyaMoon", score: 45 },
+		{ id: 1, name: "NoobDemonSlayer", score: 100, rank: 1 },
+		{ id: 2, name: "The clever one", score: 70, rank: 2 },
+		{ id: 3, name: "El Jug", score: 50, rank: 3 },
+		{ id: 4, name: "AlithyaMoon", score: 45, rank: 4 },
 	]);
+
+	const { characters } = useCharacter();
+
 	const nextVictoryPhase = () => {
-		if (victoryPhase === "victoryNarration") setVictoryPhase("gamerName");
+		if (victoryPhase === "victoryScreen") setVictoryPhase("victoryNarration");
+		else if (victoryPhase === "victoryNarration") setVictoryPhase("gamerName");
 		else if (victoryPhase === "gamerName") {
 			const newPlayer = { id: Date.now(), name: inputText, score: score };
-			const updatedScoreBoard = [...scoreBoardList, newPlayer].sort(
-				(a, b) => b.score - a.score,
-			);
+			const updatedScoreBoard = [...scoreBoardList, newPlayer]
+				.sort((a, b) => b.score - a.score)
+				.map((player, index) => ({ ...player, rank: index + 1 }));
 			setScoreBoardList(updatedScoreBoard);
 			setVictoryPhase("scoreBoard");
-		} else if (victoryPhase === "scoreBoard") {
-			if (currentScore < scoreBoardList.length - 1) {
-				setCurrentScore(currentScore + 1);
-			}
 		}
 	};
+
+	const createConfetti = useCallback(() => {
+		const wrapper = document.querySelector(".confetti-wrapper");
+		if (!wrapper) return;
+
+		const confettiPiece = document.createElement("div");
+		confettiPiece.classList.add("confetti-piece");
+
+		const colors = [
+			"#f2d74e",
+			"#4042ecff",
+			"#ff9a91",
+			"#01945eff",
+			"#dcedc1",
+			"#d0ff00ff",
+		];
+		confettiPiece.style.backgroundColor =
+			colors[Math.floor(Math.random() * colors.length)];
+		confettiPiece.style.left = `${Math.random() * 100}%`;
+
+		const size = Math.random() * 15 + 10;
+		confettiPiece.style.width = `${size}px`;
+		confettiPiece.style.height = `${size}px`;
+
+		const animationDuration = Math.random() * 6 + 6;
+		confettiPiece.style.animationDuration = `${animationDuration}s`;
+		confettiPiece.style.animationDelay = `${Math.random() * -3}s`;
+
+		confettiPiece.addEventListener("animationend", () => {
+			confettiPiece.remove();
+		});
+
+		wrapper.appendChild(confettiPiece);
+	}, []);
+
+	useEffect(() => {
+		const intervalId = setInterval(createConfetti, 300);
+		return () => clearInterval(intervalId);
+	}, [createConfetti]);
 
 	return (
 		<section>
@@ -52,9 +92,34 @@ function Endings({ endingScreen, score }: EndingScreenProps) {
 
 			{endingScreen === "victory" && (
 				<article className="victory-screen">
+					{victoryPhase === "victoryScreen" && (
+						<>
+							<div className="confetti-wrapper"> </div>
+							<h1 className="victory-title">{victoryTexts.initial}</h1>
+							<button
+								className="victory-next"
+								type="button"
+								onClick={nextVictoryPhase}
+							>
+								Suivant
+							</button>
+							<div className="box-characters-ending">
+								{characters
+									.filter((character) => character.isAlive)
+									.map((character) => (
+										<img
+											className="character-animation"
+											key={character.id}
+											src={character.image}
+											alt={character.name}
+										/>
+									))}
+							</div>
+						</>
+					)}
+
 					{victoryPhase === "victoryNarration" && (
 						<>
-							<h1 className="victory-title">{victoryTexts.initial}</h1>
 							<p className="victory-narration">{victoryTexts.succes}</p>
 							<button
 								className="victory-button"
@@ -67,7 +132,12 @@ function Endings({ endingScreen, score }: EndingScreenProps) {
 					)}
 
 					{victoryPhase === "gamerName" && (
-						<>
+						<div className="victory-input-box">
+							<img
+								className="victory-input-logo"
+								src={medal}
+								alt="Logo medal"
+							/>
 							<input
 								className="victory-input"
 								type="text"
@@ -83,7 +153,7 @@ function Endings({ endingScreen, score }: EndingScreenProps) {
 							>
 								Suivant
 							</button>
-						</>
+						</div>
 					)}
 
 					{victoryPhase === "scoreBoard" && (
@@ -92,8 +162,9 @@ function Endings({ endingScreen, score }: EndingScreenProps) {
 								<h3 className="victory-title-scoreboard">Classement</h3>
 								<div className="victory-scoreboard-box">
 									{scoreBoardList.map((player) => (
-										<div className="victory-names-scores" key={player.id}>
-											<span>{player.name}: </span>
+										<div className="victory-score" key={player.id}>
+											<span className={`rank-${player.rank}`}>.</span>
+											<span>{player.name}</span>
 											<span>{player.score} pts</span>
 										</div>
 									))}

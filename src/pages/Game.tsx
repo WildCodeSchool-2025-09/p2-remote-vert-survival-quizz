@@ -114,7 +114,7 @@ function Game() {
 			}
 			setTimeout(() => {
 				setGamePhase("answer");
-			}, 1000);
+			}, 1500);
 		} else {
 			setCharacters((prev) => {
 				const characterAlive = prev.filter((character) => character.isAlive);
@@ -139,7 +139,7 @@ function Game() {
 					} else {
 						setGamePhase("answer");
 					}
-				}, 1000);
+				}, 1500);
 
 				return updatedCharStatut;
 			});
