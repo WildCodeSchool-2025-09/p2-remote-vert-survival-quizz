@@ -1,13 +1,14 @@
-import type { Room } from "../types/GameDataTypes";
+import type { Joker, Room } from "../types/GameDataTypes";
 import "../styles/navbar.css";
 import { useCharacter } from "../contexts/CharacterContext";
 
 interface navBarType {
 	roomData: Room;
-	score: number;
+	score: number[];
+	selectedJoker: Joker | null;
 }
 
-function Navbar({ roomData, score }: navBarType) {
+function Navbar({ roomData, score, selectedJoker }: navBarType) {
 	const { characters } = useCharacter();
 
 	return (
@@ -23,8 +24,21 @@ function Navbar({ roomData, score }: navBarType) {
 				))}
 			</div>
 
+			{selectedJoker && (
+				<img
+					className="navbar-joker"
+					src={selectedJoker.img_gotten}
+					alt={selectedJoker.name}
+				/>
+			)}
+
 			<div className="container-right">
-				<p className="score">{score} pts</p>
+				<p className="score">
+					{score.length === 12 && score.every((number) => number > 0)
+						? score.reduce((acc, currentValue) => acc + currentValue, 0) + 50
+						: score.reduce((acc, currentValue) => acc + currentValue, 0)}{" "}
+					pts
+				</p>
 				<img
 					src={roomData.mapRoom}
 					alt={roomData.name}

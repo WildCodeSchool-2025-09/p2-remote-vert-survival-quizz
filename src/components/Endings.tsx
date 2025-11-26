@@ -5,11 +5,11 @@ import { useCharacter } from "../contexts/CharacterContext";
 import { victoryTexts } from "../data/NarrationData";
 import "../styles/endings.css";
 
-type EndingScreenType = "gameOver" | "victory";
+type EndingScreenType = "gameOver" | "victory" | null;
 
 interface EndingScreenProps {
 	endingScreen: EndingScreenType;
-	score: number;
+	score: number[];
 }
 
 function Endings({ endingScreen, score }: EndingScreenProps) {
@@ -28,7 +28,15 @@ function Endings({ endingScreen, score }: EndingScreenProps) {
 		if (victoryPhase === "victoryScreen") setVictoryPhase("victoryNarration");
 		else if (victoryPhase === "victoryNarration") setVictoryPhase("gamerName");
 		else if (victoryPhase === "gamerName") {
-			const newPlayer = { id: Date.now(), name: inputText, score: score };
+			const newPlayer = {
+				id: Date.now(),
+				name: inputText,
+				score:
+					score.length === 12 && score.every((number) => number > 0)
+						? score.reduce((acc, currentValue) => acc + currentValue, 0) + 50
+						: score.reduce((acc, currentValue) => acc + currentValue, 0),
+			};
+
 			const updatedScoreBoard = [...scoreBoardList, newPlayer]
 				.sort((a, b) => b.score - a.score)
 				.map((player, index) => ({ ...player, rank: index + 1 }));
@@ -81,7 +89,10 @@ function Endings({ endingScreen, score }: EndingScreenProps) {
 			{endingScreen === "gameOver" && (
 				<article className="gameover-screen">
 					<h1 className="gameover-title">Game Over</h1>
-					<p className="gameover-score">Score : {score} pts</p>
+					<p className="gameover-score">
+						Score : {score.reduce((acc, currentValue) => acc + currentValue, 0)}{" "}
+						pts
+					</p>
 					<Link to="/">
 						<button className="gameover-button" type="button">
 							Rejouer

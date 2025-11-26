@@ -1,8 +1,9 @@
 import type {
 	Character,
 	Homepage,
+	Joker,
 	Room,
-	victoryScreenData,
+	VictoryScreenData,
 } from "../types/GameDataTypes";
 
 import cellar_map from "../assets/img/navbar/maps/basement/room1.png";
@@ -31,6 +32,16 @@ import jugurtha_logo_dead from "../assets/img/navbar/characters/dead/jug.png";
 import lisa_logo_dead from "../assets/img/navbar/characters/dead/lisa.png";
 import luna_logo_dead from "../assets/img/navbar/characters/dead/luna.png";
 
+import additional_time_gotten from "../assets/img/jokers/gotten/additional_time.png";
+import change_difficulty_gotten from "../assets/img/jokers/gotten/change_difficulty.png";
+import points_x2_gotten from "../assets/img/jokers/gotten/points_x2.png";
+import shield_gotten from "../assets/img/jokers/gotten/shield.png";
+
+import additional_time_not_gotten from "../assets/img/jokers/not_gotten/additional_time.png";
+import change_difficulty_not_gotten from "../assets/img/jokers/not_gotten/change_difficulty.png";
+import points_x2_not_gotten from "../assets/img/jokers/not_gotten/points_x2.png";
+import shield_not_gotten from "../assets/img/jokers/not_gotten/shield.png";
+
 import {
 	ballTexts,
 	cellarTexts,
@@ -48,7 +59,7 @@ import {
 	victoryTexts,
 } from "./NarrationData";
 
-export const HomepageData: Homepage[] = [
+export const homepageData: Homepage[] = [
 	{
 		name: "HomeStart",
 		number: 0,
@@ -216,11 +227,54 @@ export const charactersData: Character[] = [
 		isAlive: true,
 	},
 ];
-export const VictoryNarrationData: victoryScreenData[] = [
+export const VictoryNarrationData: VictoryScreenData[] = [
 	{
 		name: "victoryscreen",
 		number: 14,
 		initial: victoryTexts.initial,
 		succes: victoryTexts.succes,
+	},
+];
+
+export const jokersData: Joker[] = [
+	{
+		id: 1,
+		name: "shield",
+		combo: 2,
+		img_gotten: shield_gotten,
+		img_not_gotten: shield_not_gotten,
+		text: "Aucune perte en cas de mauvaise réponse.",
+		gotten: false,
+		used: false,
+	},
+	{
+		id: 2,
+		name: "change difficulty",
+		combo: 4,
+		img_gotten: change_difficulty_gotten,
+		img_not_gotten: change_difficulty_not_gotten,
+		text: "Change le niveau de difficulté de la question actuelle.",
+		gotten: false,
+		used: false,
+	},
+	{
+		id: 3,
+		name: "points x2",
+		combo: 6,
+		img_gotten: points_x2_gotten,
+		img_not_gotten: points_x2_not_gotten,
+		text: "Multiplie tes points obtenus par 2 pour la question actuelle.",
+		gotten: false,
+		used: false,
+	},
+	{
+		id: 4,
+		name: "additional time",
+		combo: 8,
+		img_gotten: additional_time_gotten,
+		img_not_gotten: additional_time_not_gotten,
+		text: "Ajoute 10 secondes de réflexion à cette question.",
+		gotten: false,
+		used: false,
 	},
 ];
