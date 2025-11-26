@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import { roomsData } from "../data/Gamedata";
 import "../styles/game.css";
 import "../styles/navbar.css";
+import Success from "../components/Success";
 import { useCharacter } from "../contexts/CharacterContext";
 import type {
 	DataType,
@@ -131,6 +132,8 @@ function Game() {
 			<nav className="navbar">
 				<Navbar roomData={currentNarration} score={score} />
 			</nav>
+
+			<Success />
 
 			<div className="game-screen">
 				<div className="box-characters">
