@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
-import { charactersData } from "../data/Gamedata";
+import { charactersData } from "../data/GameData";
 import type { Character } from "../types/GameDataTypes";
 
 type CharacterContextType = {
