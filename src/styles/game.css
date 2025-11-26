@@ -57,7 +57,8 @@
 }
 
 .box-characters {
-	margin-top: 20.1rem;
+	position: absolute;
+	top: 25rem;
 }
 
 .character {
@@ -76,12 +77,11 @@
 .box-narration {
 	min-width: 50%;
 	max-width: 75%;
-	background-color: var(--box-color);
+	background-color: rgba(var(--box-color), 0.9);
 	color: var(--light-color);
 	font-family: var(--text-font);
 	font-size: 20px;
 	line-height: 1.5;
-	opacity: 90%;
 	border: 5px solid var(--light-color);
 	border-radius: 45px;
 	padding: 35px;

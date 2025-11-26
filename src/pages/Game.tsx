@@ -231,9 +231,8 @@ function Game() {
 				/>
 			</nav>
 
-			<Success />
-
 			<div className="game-screen">
+				<Success />
 				<div className="box-characters">
 					{characters
 						.filter((character) => character.isAlive)

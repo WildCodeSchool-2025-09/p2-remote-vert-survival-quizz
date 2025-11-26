@@ -36,6 +36,24 @@ import change_difficulty_not_gotten from "../assets/img/jokers/not_gotten/change
 import points_x2_not_gotten from "../assets/img/jokers/not_gotten/points_x2.png";
 import shield_not_gotten from "../assets/img/jokers/not_gotten/shield.png";
 
+import carnage_gotten from "../assets/img/success/gotten/carnage.png";
+import first_death_gotten from "../assets/img/success/gotten/first_death.png";
+import flex_gotten from "../assets/img/success/gotten/flex.png";
+import half_way_gotten from "../assets/img/success/gotten/half_way.png";
+import joker_gotten from "../assets/img/success/gotten/joker.png";
+import noob_gotten from "../assets/img/success/gotten/noob.png";
+import perfect_gotten from "../assets/img/success/gotten/perfect.png";
+import start_gotten from "../assets/img/success/gotten/start.png";
+
+import carnage_not_gotten from "../assets/img/success/not_gotten/carnage.png";
+import first_death_not_gotten from "../assets/img/success/not_gotten/first_death.png";
+import flex_not_gotten from "../assets/img/success/not_gotten/flex.png";
+import half_way_not_gotten from "../assets/img/success/not_gotten/half_way.png";
+import joker_not_gotten from "../assets/img/success/not_gotten/joker.png";
+import noob_not_gotten from "../assets/img/success/not_gotten/noob.png";
+import perfect_not_gotten from "../assets/img/success/not_gotten/perfect.png";
+import start_not_gotten from "../assets/img/success/not_gotten/perfect.png";
+
 import {
 	ballTexts,
 	cellarTexts,
@@ -261,5 +279,72 @@ export const jokersData: Joker[] = [
 		text: "Ajoute 10 secondes de réflexion à cette question.",
 		gotten: false,
 		used: false,
+	},
+];
+
+export const successesData = [
+	{
+		id: 1,
+		name: "Start",
+		img_gotten: start_gotten,
+		img_not_gotten: start_not_gotten,
+		text: "Partie lancée, que la chance soit avec toi.",
+		gotten: false,
+	},
+	{
+		id: 2,
+		name: "First Death",
+		img_gotten: first_death_gotten,
+		img_not_gotten: first_death_not_gotten,
+		text: "Il vous manque un orteil. Ca compte pas vraiment, si ?",
+		gotten: false,
+	},
+	{
+		id: 3,
+		name: "Noob",
+		img_gotten: noob_gotten,
+		img_not_gotten: noob_not_gotten,
+		text: "O bonne réponse ?! T'as speedrun la défaite..",
+		gotten: false,
+	},
+	{
+		id: 4,
+		name: "First Joker",
+		img_gotten: joker_gotten,
+		img_not_gotten: joker_not_gotten,
+		text: "Premier joker ! Essaie de pas le cramer tout de suite.",
+		gotten: false,
+	},
+	{
+		id: 5,
+		name: "Half Way",
+		img_gotten: half_way_gotten,
+		img_not_gotten: half_way_not_gotten,
+		text: "T'as survécu à la moitié ! Statistiquement, ça tiendra pas.",
+		gotten: false,
+	},
+	{
+		id: 6,
+		name: "Carnage",
+		img_gotten: carnage_gotten,
+		img_not_gotten: carnage_not_gotten,
+		text: "8 kills consécutifs ? Le chaos a un nom.",
+		gotten: false,
+	},
+	{
+		id: 7,
+		name: "Flexeur",
+		img_gotten: flex_gotten,
+		img_not_gotten: flex_not_gotten,
+		text: "Fin du jeu et 0 joker utilisé ? Juste du skill pur.",
+		gotten: false,
+	},
+	{
+		id: 8,
+		name: "Perfect",
+		img_gotten: perfect_gotten,
+		img_not_gotten: perfect_not_gotten,
+		text: "0 mort ? Ok, même les devs pensaient pas que c'était possible.",
+		gotten: false,
 	},
 ];
