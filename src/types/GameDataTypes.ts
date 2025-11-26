@@ -58,11 +58,11 @@ export interface HomeNarration {
 export interface NarrationText {
 	text: HomeNarration | RoomNarration;
 }
-export interface victoryTexts {
+export interface VictoryTexts {
 	initial: string;
 	succes: string;
 }
-export interface victoryScreenData {
+export interface VictoryScreenData {
 	name: string;
 	number: number;
 	initial: string;
