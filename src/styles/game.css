@@ -140,7 +140,7 @@ main {
 .box-question {
 	width: 80rem;
 	height: 10rem;
-	background-image: url("../assets/img/cadre.png");
+	background-image: url("../assets/img/questions/cadre.png");
 	background-color: rgba(0, 0, 0, 0.7);
 	background-size: 72rem 23rem;
 	background-position: center;
