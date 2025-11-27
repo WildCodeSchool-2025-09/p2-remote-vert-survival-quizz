@@ -1,4 +1,4 @@
-import type { HomeNarration, RoomNarration } from "../types/gameDataTypes";
+import type { HomeNarration, RoomNarration } from "../types/GameDataTypes";
 
 export const homeTexts: HomeNarration = {
 	title: "REACT EVIL",
