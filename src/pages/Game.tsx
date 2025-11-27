@@ -3,8 +3,10 @@ import Navbar from "../components/Navbar";
 import { jokersData, roomsData } from "../data/GameData";
 import "../styles/game.css";
 import "../styles/navbar.css";
+import Notification from "../components/Notification";
 import Success from "../components/Success";
 import { useCharacter } from "../contexts/CharacterContext";
+import { useSuccess } from "../contexts/SuccessContext";
 import type { Joker } from "../types/GameDataTypes";
 import type {
 	DataType,
@@ -23,6 +25,7 @@ function Game() {
 	const [selectedJoker, setSelectedJoker] = useState<Joker | null>(null);
 
 	const { characters, setCharacters } = useCharacter();
+	const { setSuccesses } = useSuccess();
 
 	useEffect(() => {
 		setLoading(true);
@@ -107,6 +110,11 @@ function Game() {
 				),
 			);
 			setSelectedJoker(null);
+			setSuccesses((prev) =>
+				prev.map((success, i) =>
+					currentRoom === 5 && i === 4 ? { ...success, gotten: true } : success,
+				),
+			);
 		} else {
 			alert("Fin du jeu en construction !");
 		}
@@ -158,6 +166,12 @@ function Game() {
 						: character,
 				);
 			});
+
+			setSuccesses((prev) =>
+				prev.map((success, i) =>
+					i === 1 ? { ...success, gotten: true } : success,
+				),
+			);
 		}
 
 		setScore(score);
@@ -196,6 +210,22 @@ function Game() {
 				combosWon.includes(joker.combo) && !joker.used
 					? { ...joker, gotten: true }
 					: joker,
+			),
+		);
+
+		setSuccesses((prev) =>
+			prev.map((success, i) =>
+				combosWon.includes(2) && i === 3
+					? { ...success, gotten: true }
+					: success,
+			),
+		);
+
+		setSuccesses((prev) =>
+			prev.map((success, i) =>
+				combosWon.includes(8) && i === 5
+					? { ...success, gotten: true }
+					: success,
 			),
 		);
 
@@ -245,6 +275,7 @@ function Game() {
 							/>
 						))}
 				</div>
+				<Notification />
 
 				{gamePhase === "narration" && (
 					<article className="narration-phase">

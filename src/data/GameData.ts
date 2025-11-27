@@ -290,6 +290,7 @@ export const successesData = [
 		img_not_gotten: start_not_gotten,
 		text: "Partie lancée, que la chance soit avec toi.",
 		gotten: false,
+		notified: false,
 	},
 	{
 		id: 2,
@@ -298,14 +299,16 @@ export const successesData = [
 		img_not_gotten: first_death_not_gotten,
 		text: "Il vous manque un orteil. Ca compte pas vraiment, si ?",
 		gotten: false,
+		notified: false,
 	},
 	{
 		id: 3,
 		name: "Noob",
 		img_gotten: noob_gotten,
 		img_not_gotten: noob_not_gotten,
-		text: "O bonne réponse ?! T'as speedrun la défaite..",
+		text: "O bonne réponse ?! T'as speedrun la défaite ...",
 		gotten: false,
+		notified: false,
 	},
 	{
 		id: 4,
@@ -314,6 +317,7 @@ export const successesData = [
 		img_not_gotten: joker_not_gotten,
 		text: "Premier joker ! Essaie de pas le cramer tout de suite.",
 		gotten: false,
+		notified: false,
 	},
 	{
 		id: 5,
@@ -322,6 +326,7 @@ export const successesData = [
 		img_not_gotten: half_way_not_gotten,
 		text: "T'as survécu à la moitié ! Statistiquement, ça tiendra pas.",
 		gotten: false,
+		notified: false,
 	},
 	{
 		id: 6,
@@ -330,6 +335,7 @@ export const successesData = [
 		img_not_gotten: carnage_not_gotten,
 		text: "8 kills consécutifs ? Le chaos a un nom.",
 		gotten: false,
+		notified: false,
 	},
 	{
 		id: 7,
@@ -338,6 +344,7 @@ export const successesData = [
 		img_not_gotten: flex_not_gotten,
 		text: "Fin du jeu et 0 joker utilisé ? Juste du skill pur.",
 		gotten: false,
+		notified: false,
 	},
 	{
 		id: 8,
@@ -346,5 +353,6 @@ export const successesData = [
 		img_not_gotten: perfect_not_gotten,
 		text: "0 mort ? Ok, même les devs pensaient pas que c'était possible.",
 		gotten: false,
+		notified: false,
 	},
 ];

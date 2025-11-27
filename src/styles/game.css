@@ -53,12 +53,11 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	position: relative;
 }
 
 .box-characters {
 	position: absolute;
-	top: 25rem;
+	top: 45rem;
 }
 
 .character {
@@ -75,8 +74,7 @@
 }
 
 .box-narration {
-	min-width: 50%;
-	max-width: 75%;
+	max-width: 70ch;
 	background-color: rgba(var(--box-color), 0.9);
 	color: var(--light-color);
 	font-family: var(--text-font);
@@ -110,7 +108,7 @@
 .jokers-box {
 	display: flex;
 	justify-content: center;
-	gap: 5rem;
+	gap: 4rem;
 	margin-top: 1rem;
 	margin-left: 2rem;
 }
@@ -220,7 +218,7 @@
 	height: 70px;
 	border: none;
 	border-radius: 45px;
-	margin-left: 1000px;
+	margin-left: 900px;
 	margin-top: -55px;
 	z-index: 2;
 	cursor: pointer;
@@ -237,7 +235,7 @@
 	height: 70px;
 	border: none;
 	border-radius: 45px;
-	margin-left: 1000px;
+	margin-left: 870px;
 	margin-top: -55px;
 	z-index: 2;
 	cursor: pointer;
@@ -247,13 +245,12 @@
 
 .box-question {
 	min-width: 50%;
-	background-color: var(--box-color);
+	background-color: rgba(var(--box-color), 0.9);
 	color: var(--light-color);
 	font-family: var(--title-font);
 	font-size: 50px;
 	font-weight: 300;
 	line-height: 1.5;
-	opacity: 90%;
 	border: 5px solid var(--light-color);
 	border-radius: 45px;
 	padding: 30px;
@@ -271,12 +268,11 @@
 }
 
 .button-answers {
-	background-color: var(--box-color);
+	background-color: rgba(var(--box-color), 0.9);
 	color: var(--light-color);
 	font-family: var(--title-font);
 	font-size: 50px;
 	font-weight: 300;
-	opacity: 90%;
 	border: 5px solid var(--light-color);
 	border-radius: 45px;
 	text-align: center;
