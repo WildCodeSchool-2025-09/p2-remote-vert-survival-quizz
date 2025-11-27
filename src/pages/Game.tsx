@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Endings from "../components/Endings";
 import Navbar from "../components/Navbar";
 import { jokersData, roomsData } from "../data/GameData";
 import "../styles/game.css";
@@ -17,6 +18,9 @@ function Game() {
 	const [currentRoom, setCurrentRoom] = useState(1);
 	const [gamePhase, setGamePhase] = useState("narration");
 	const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+	const [endingScreen, setEndingScreen] = useState<
+		"gameOver" | "victory" | null
+	>(null);
 	const [score, setScore] = useState<number[]>([]);
 	const [jokers, setJokers] = useState<Joker[]>(jokersData);
 	const [selectedJoker, setSelectedJoker] = useState<Joker | null>(null);
@@ -107,7 +111,8 @@ function Game() {
 			);
 			setSelectedJoker(null);
 		} else {
-			alert("Fin du jeu en construction !");
+			setGamePhase("ending");
+			setEndingScreen("victory");
 		}
 	};
 
@@ -143,19 +148,38 @@ function Game() {
 					score.push(15);
 				}
 			}
+			setTimeout(() => {
+				setGamePhase("answer");
+			}, 1500);
 		} else {
 			score.push(0);
 			setCharacters((prev) => {
 				const characters = prev.filter((character) => character.isAlive);
 				if (characters.length === 0) return prev;
+
 				const lastCharacter = characters[characters.length - 1].id;
 
-				return prev.map((character) =>
+				const updatedCharStatut = prev.map((character) =>
 					character.id === lastCharacter &&
 					!(jokers[0].used && jokers[0].gotten)
 						? { ...character, isAlive: false }
 						: character,
 				);
+
+				const allCharactersDead = updatedCharStatut.every(
+					(character) => !character.isAlive,
+				);
+
+				setTimeout(() => {
+					if (allCharactersDead) {
+						setGamePhase("ending");
+						setEndingScreen("gameOver");
+					} else {
+						setGamePhase("answer");
+					}
+				}, 1500);
+
+				return updatedCharStatut;
 			});
 		}
 
@@ -221,191 +245,213 @@ function Game() {
 	if (!easyQuestion) return <p>Aucune question facile trouvée</p>;
 
 	return (
-		<section className={`background-room ${currentNarration.name}`}>
-			<nav className="navbar">
-				<Navbar
-					roomData={currentNarration}
-					score={score}
-					selectedJoker={selectedJoker}
-				/>
-			</nav>
+		<>
+			{gamePhase === "ending" ? (
+				<Endings endingScreen={endingScreen} score={score} />
+			) : (
+				<section className={`background-room ${currentNarration.name}`}>
+					<nav className="navbar">
+						<Navbar
+							roomData={currentNarration}
+							score={score}
+							selectedJoker={selectedJoker}
+						/>
+					</nav>
 
-			<div className="game-screen">
-				<div className="box-characters">
-					{characters
-						.filter((character) => character.isAlive)
-						.map((character) => (
-							<img
-								className="character"
-								key={character.id}
-								src={character.image}
-								alt={character.name}
-							/>
-						))}
-				</div>
-
-				{gamePhase === "narration" && (
-					<article className="narration-phase">
-						<p className="box-narration">{currentNarration?.narrationText}</p>
-						<button className="button-next" type="button" onClick={nextPhase}>
-							Suivant
-						</button>
-					</article>
-				)}
-
-				{gamePhase === "chooseJoker" && (
-					<article className="narration-phase">
-						<div className="box-narration joker">
-							<p>
-								Est-ce que tu veux utiliser un joker ?<br />
-								(Clique sur un joker pour pouvoir l’utiliser !)
-							</p>
-							<div className="jokers-box">
-								{jokers.map((joker) => (
-									<>
-										<button
-											className="button-joker"
-											key={joker.id}
-											type="button"
-											onClick={() => {
-												setGamePhase("jokerValidation");
-												setSelectedJoker(joker);
-											}}
-											disabled={!joker.gotten || (joker.gotten && joker.used)}
-										>
-											<img
-												src={
-													joker.gotten && !joker.used
-														? joker.img_gotten
-														: joker.img_not_gotten
-												}
-												alt={joker.name}
-												className="image-joker"
-											/>
-										</button>
-										<div key={joker.id} className="info-wrapper">
-											<p
-												key={joker.id}
-												className="infobulle"
-												data-joker-id={joker.id}
-											>
-												{" "}
-												i{" "}
-											</p>
-											<p className="info-text"> {joker.text}</p>
-										</div>
-									</>
+					<div className="game-screen">
+						<div className="box-characters">
+							{characters
+								.filter((character) => character.isAlive)
+								.map((character) => (
+									<img
+										className="character"
+										key={character.id}
+										src={character.image}
+										alt={character.name}
+									/>
 								))}
-							</div>
 						</div>
-						<button className="button-next" type="button" onClick={nextPhase}>
-							Passer
-						</button>
-					</article>
-				)}
 
-				{gamePhase === "jokerValidation" && (
-					<article className="narration-phase">
-						<p className="box-narration box-selected-joker joker">
-							Es-tu sûr de vouloir utiliser ce joker ?
-							{selectedJoker && (
-								<img
-									className="selected-joker"
-									src={selectedJoker.img_gotten}
-									alt={selectedJoker.name}
-								/>
-							)}
-						</p>
-						<div className="box-oui-non">
-							<button
-								type="button"
-								className="yes"
-								onClick={validationUseJoker}
-							>
-								OUI
-							</button>
-							<button
-								type="button"
-								className="no"
-								onClick={() => {
-									setGamePhase("chooseJoker");
-									setSelectedJoker(null);
-								}}
-							>
-								NON
-							</button>
-						</div>
-					</article>
-				)}
-
-				{gamePhase === "ready" && (
-					<article className="narration-phase">
-						<p className="box-narration">
-							ATTENTION DEFENDS TOI !<br />
-							{currentNarration?.readyText}
-						</p>
-						<button className="button-next" type="button" onClick={nextPhase}>
-							GO !
-						</button>
-					</article>
-				)}
-
-				{gamePhase === "question" && (
-					<article className="narration-question">
-						<h1 className="box-question">
-							{jokers[1].used && jokers[1].gotten
-								? easyQuestion.question
-								: currentQuestion.question}
-						</h1>
-						<div className="box-answers">
-							{(jokers[1].used && jokers[1].gotten
-								? easyQuestion.answers
-								: currentQuestion.answers
-							).map((answer) => (
+						{gamePhase === "narration" && (
+							<article className="narration-phase">
+								<p className="box-narration">
+									{currentNarration?.narrationText}
+								</p>
 								<button
-									className={`button-answers ${
-										selectedAnswer === null
-											? "answer-default"
-											: answer ===
-													(jokers[1].used && jokers[1].gotten
-														? easyQuestion.correct
-														: currentQuestion.correct)
-												? "correct-answer"
-												: "wrong-answer"
-									}`}
+									className="button-next"
 									type="button"
-									key={answer}
-									onClick={() => answers(answer)}
-									disabled={selectedAnswer !== null}
+									onClick={nextPhase}
 								>
-									{answer}
+									Suivant
 								</button>
-							))}
-						</div>
-					</article>
-				)}
+							</article>
+						)}
 
-				{gamePhase === "answer" && (
-					<article className="narration-phase">
-						<p className="box-narration">
-							{selectedAnswer ===
-							(jokers[1].used && jokers[1].gotten
-								? easyQuestion.correct
-								: currentQuestion.correct)
-								? currentNarration.success
-								: currentNarration.failure}
-						</p>
-						<button
-							className="button-next-room"
-							type="button"
-							onClick={nextRoom}
-						>
-							Salle suivante
-						</button>
-					</article>
-				)}
-			</div>
-		</section>
+						{gamePhase === "chooseJoker" && (
+							<article className="narration-phase">
+								<div className="box-narration joker">
+									<p>
+										Est-ce que tu veux utiliser un joker ?<br />
+										(Clique sur un joker pour pouvoir l’utiliser !)
+									</p>
+									<div className="jokers-box">
+										{jokers.map((joker) => (
+											<>
+												<button
+													className="button-joker"
+													key={joker.id}
+													type="button"
+													onClick={() => {
+														setGamePhase("jokerValidation");
+														setSelectedJoker(joker);
+													}}
+													disabled={
+														!joker.gotten || (joker.gotten && joker.used)
+													}
+												>
+													<img
+														src={
+															joker.gotten && !joker.used
+																? joker.img_gotten
+																: joker.img_not_gotten
+														}
+														alt={joker.name}
+														className="image-joker"
+													/>
+												</button>
+												<div key={joker.id} className="info-wrapper">
+													<p
+														key={joker.id}
+														className="infobulle"
+														data-joker-id={joker.id}
+													>
+														{" "}
+														i{" "}
+													</p>
+													<p className="info-text"> {joker.text}</p>
+												</div>
+											</>
+										))}
+									</div>
+								</div>
+								<button
+									className="button-next"
+									type="button"
+									onClick={nextPhase}
+								>
+									Passer
+								</button>
+							</article>
+						)}
+
+						{gamePhase === "jokerValidation" && (
+							<article className="narration-phase">
+								<p className="box-narration box-selected-joker joker">
+									Es-tu sûr de vouloir utiliser ce joker ?
+									{selectedJoker && (
+										<img
+											className="selected-joker"
+											src={selectedJoker.img_gotten}
+											alt={selectedJoker.name}
+										/>
+									)}
+								</p>
+								<div className="box-oui-non">
+									<button
+										type="button"
+										className="yes"
+										onClick={validationUseJoker}
+									>
+										OUI
+									</button>
+									<button
+										type="button"
+										className="no"
+										onClick={() => {
+											setGamePhase("chooseJoker");
+											setSelectedJoker(null);
+										}}
+									>
+										NON
+									</button>
+								</div>
+							</article>
+						)}
+
+						{gamePhase === "ready" && (
+							<article className="narration-phase">
+								<p className="box-narration">
+									ATTENTION DEFENDS TOI !<br />
+									{currentNarration?.readyText}
+								</p>
+								<button
+									className="button-next"
+									type="button"
+									onClick={nextPhase}
+								>
+									GO !
+								</button>
+							</article>
+						)}
+
+						{gamePhase === "question" && (
+							<article className="narration-question">
+								<h1 className="box-question">
+									{jokers[1].used && jokers[1].gotten
+										? easyQuestion.question
+										: currentQuestion.question}
+								</h1>
+								<div className="box-answers">
+									{(jokers[1].used && jokers[1].gotten
+										? easyQuestion.answers
+										: currentQuestion.answers
+									).map((answer) => (
+										<button
+											className={`button-answers ${
+												selectedAnswer === null
+													? "answer-default"
+													: answer ===
+															(jokers[1].used && jokers[1].gotten
+																? easyQuestion.correct
+																: currentQuestion.correct)
+														? "correct-answer"
+														: "wrong-answer"
+											}`}
+											type="button"
+											key={answer}
+											onClick={() => answers(answer)}
+											disabled={selectedAnswer !== null}
+										>
+											{answer}
+										</button>
+									))}
+								</div>
+							</article>
+						)}
+
+						{gamePhase === "answer" && (
+							<article className="narration-phase">
+								<p className="box-narration">
+									{selectedAnswer ===
+									(jokers[1].used && jokers[1].gotten
+										? easyQuestion.correct
+										: currentQuestion.correct)
+										? currentNarration.success
+										: currentNarration.failure}
+								</p>
+								<button
+									className="button-next-room"
+									type="button"
+									onClick={nextRoom}
+								>
+									Salle suivante
+								</button>
+							</article>
+						)}
+					</div>
+				</section>
+			)}
+		</>
 	);
 }
 

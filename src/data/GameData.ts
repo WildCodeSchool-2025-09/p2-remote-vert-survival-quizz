@@ -1,4 +1,10 @@
-import type { Character, Homepage, Joker, Room } from "../types/GameDataTypes";
+import type {
+	Character,
+	Homepage,
+	Joker,
+	Room,
+	VictoryScreenData,
+} from "../types/GameDataTypes";
 
 import cellar_map from "../assets/img/navbar/maps/basement/room1.png";
 import pantry_map from "../assets/img/navbar/maps/basement/room2.png";
@@ -50,6 +56,7 @@ import {
 	pantryTexts,
 	storage_roomTexts,
 	surgeryLaboratoryTexts,
+	victoryTexts,
 } from "./NarrationData";
 
 export const homepageData: Homepage[] = [
@@ -218,6 +225,14 @@ export const charactersData: Character[] = [
 		logo_alive: jugurtha_logo_alive,
 		logo_dead: jugurtha_logo_dead,
 		isAlive: true,
+	},
+];
+export const VictoryNarrationData: VictoryScreenData[] = [
+	{
+		name: "victoryscreen",
+		number: 14,
+		initial: victoryTexts.initial,
+		succes: victoryTexts.succes,
 	},
 ];
 
