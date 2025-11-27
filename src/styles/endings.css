@@ -1,0 +1,379 @@
+.gameover-screen {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-image: url("/src/assets/img/ending/backgrounds/game_over_all_dead.png");
+	width: 100vw;
+	height: 100vh;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center 30%;
+}
+
+.gameover-title {
+	text-align: center;
+	font-family: var(--title-font);
+	color: var(--primary-color);
+	font-size: 200px;
+	margin: 0;
+	font-weight: 300;
+	padding-top: 80px;
+}
+
+.gameover-score {
+	max-width: 30%;
+	color: var(--light-color);
+	font-family: var(--title-font);
+	font-size: 80px;
+	text-align: center;
+	margin: 0;
+}
+
+.gameover-button {
+	background-color: var(--primary-color);
+	font-family: var(--text-font);
+	font-size: 32px;
+	color: var(--light-color);
+	width: 175px;
+	height: 70px;
+	border: none;
+	border-radius: 45px;
+	z-index: 2;
+	cursor: pointer;
+	margin-top: 50px;
+	box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5)
+		-3px -3px 6px 1px inset;
+
+	&:hover {
+		transform: scale(1.2);
+	}
+}
+
+.victory-screen {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	z-index: 3;
+	position: absolute;
+	background-image: url("/src/assets/img/ending/backgrounds/out_end.png");
+	width: 100vw;
+	height: 100vh;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center 30%;
+}
+
+.victory-title {
+	font-family: var(--title-font);
+	color: var(--light-color);
+	font-size: 200px;
+	font-weight: 300;
+	margin: 0;
+	padding-top: 50px;
+}
+.confetti-wrapper {
+	height: 100%;
+	left: 0;
+	overflow: hidden;
+	pointer-events: none;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 1000;
+}
+
+.confetti-piece {
+	animation: fall linear forwards;
+	background-color: red;
+	border-radius: 2px;
+	opacity: 0;
+	position: absolute;
+}
+
+@keyframes fall {
+	0% {
+		opacity: 1;
+		transform: translateY(-100px) rotate(0deg);
+	}
+	100% {
+		opacity: 0;
+		transform: translateY(100vh) rotate(720deg);
+	}
+}
+
+.victory-narration {
+	min-width: 60%;
+	max-width: 55%;
+	background-color: var(--box-color);
+	color: var(--light-color);
+	font-family: var(--text-font);
+	font-size: 25px;
+	line-height: 1.5;
+	opacity: 90%;
+	border: 5px solid var(--light-color);
+	border-radius: 45px;
+	padding: 35px;
+	margin-top: 200px;
+	text-align: justify;
+}
+
+.victory-next {
+	background-color: var(--primary-color);
+	font-family: var(--text-font);
+	font-size: 32px;
+	color: var(--light-color);
+	width: 175px;
+	height: 70px;
+	border: none;
+	border-radius: 45px;
+	margin-left: 1500px;
+	top: 50rem;
+	position: absolute;
+	z-index: 2;
+	cursor: pointer;
+	box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5)
+		-3px -3px 6px 1px inset;
+
+	&:hover {
+		transform: scale(1.2);
+	}
+}
+
+.victory-button {
+	background-color: var(--primary-color);
+	font-family: var(--text-font);
+	font-size: 32px;
+	color: var(--light-color);
+	width: 175px;
+	height: 70px;
+	border: none;
+	border-radius: 45px;
+	margin-left: 1000px;
+	margin-top: -55px;
+	z-index: 2;
+	cursor: pointer;
+	box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5)
+		-3px -3px 6px 1px inset;
+
+	&:hover {
+		transform: scale(1.2);
+	}
+}
+.victory-input-logo {
+	background-position: center;
+	display: flex;
+	justify-content: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	height: auto;
+	width: 2vw;
+}
+
+.victory-input-box {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 150px;
+	background-color: var(--box-color);
+	color: var(--light-color);
+	font-family: var(--text-font);
+	font-size: 20px;
+	opacity: 90%;
+	border: 5px solid var(--box-color);
+	border-radius: 45px;
+	padding: 15px 50px 10px;
+	text-align: justify;
+}
+.victory-input {
+	border-radius: 25px;
+	border: 2px solid var(--box-color);
+	display: flex;
+	flex-direction: column;
+	margin-top: 25px;
+	width: 13vw;
+	font-family: var(--text-font);
+	font-size: 25px;
+	color: var(--box-color);
+	padding-left: 25px;
+	background-color: rgba(220, 209, 209, 0.857);
+}
+
+.victory-input-button {
+	justify-content: center;
+	background-color: #8d0101dd;
+	border: 5px solid var(--box-color);
+	font-family: var(--text-font);
+	font-size: 32px;
+	color: var(--light-color);
+	width: 175px;
+	height: 70px;
+	border-radius: 45px;
+	cursor: pointer;
+	margin-top: 50px;
+	box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5)
+		-3px -3px 6px 1px inset;
+
+	&:hover {
+		transform: scale(1.2);
+	}
+}
+
+.victory-scoreboard {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-width: 40%;
+	max-width: 40%;
+	background-color: var(--box-color);
+	color: var(--light-color);
+	font-family: var(--text-font);
+	font-size: 25px;
+	opacity: 90%;
+	border: 5px solid var(--box-color);
+	border-radius: 45px;
+	padding: 10px;
+	text-align: justify;
+	margin-top: 30px;
+}
+
+.victory-title-scoreboard {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 50px;
+	background-color: #564b4b;
+	color: var(--light-color);
+	font-family: var(--text-font);
+	border: 1px solid black;
+	font-size: 25px;
+	border-radius: 25px;
+	padding: 15px 70px 15px;
+	text-align: justify;
+}
+
+.victory-scoreboard-box {
+	display: flex;
+	flex-direction: column;
+	margin: 5px 5px 5px;
+	background-color: #564b4b;
+	color: var(--light-color);
+	font-family: var(--text-font);
+	border: 1px solid black;
+	font-size: 25px;
+	border-radius: 65px;
+	padding: 10px 30px 20px;
+	text-align: justify;
+}
+
+.victory-score {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 80px;
+	background-color: var(--box-color);
+	color: var(--light-color);
+	font-family: var(--text-font);
+	font-size: 25px;
+	border-radius: 45px;
+	padding: 15px;
+	padding-left: 15px;
+	text-align: justify;
+	margin: 15px;
+	height: 5vh;
+}
+
+.victory-retry {
+	background-color: var(--primary-color);
+	font-family: var(--text-font);
+	font-size: 32px;
+	color: var(--light-color);
+	width: 175px;
+	height: 70px;
+	border: none;
+	border-radius: 45px;
+	cursor: pointer;
+	box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5)
+		-3px -3px 6px 1px inset;
+
+	&:hover {
+		transform: scale(1.2);
+	}
+}
+
+.rank-1 {
+	background-image: url("../assets/img/ending/scores/medals/gold.png");
+	background-position: center;
+	display: flex;
+	justify-content: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	height: auto;
+	width: 1vw;
+	padding-bottom: 10px;
+	padding-left: 10px;
+}
+
+.rank-2 {
+	background-image: url("../assets/img/ending/scores/medals/silver.png");
+	background-position: center;
+	display: flex;
+	justify-content: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	height: auto;
+	width: 1vw;
+	padding-bottom: 10px;
+	padding-left: 10px;
+}
+
+.rank-3 {
+	background-image: url("../assets/img/ending/scores/medals/bronze.png");
+	background-position: center;
+	display: flex;
+	justify-content: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	height: auto;
+	width: 1vw;
+	padding-bottom: 10px;
+	padding-left: 10px;
+}
+
+.rank-4 {
+	background-image: url("../assets/img/ending/scores/zombies/icon_7.png");
+	background-position: center;
+	background-size: cover;
+	width: 2vw;
+	height: 6vh;
+	display: flex;
+	justify-content: center;
+	padding-left: 5px;
+}
+
+.rank-5 {
+	background-image: url("../assets/img/ending/scores/zombies/icon_2.png");
+	background-position: center;
+	background-size: cover;
+	width: 2vw;
+	height: 6vh;
+	display: flex;
+	justify-content: center;
+	padding-left: 5px;
+}
+
+.box-characters-ending {
+	margin-top: 11rem;
+}
+
+.character-animation {
+	height: 40rem;
+	animation: appearance-characters 3s linear both;
+}
+
+@keyframes appearance-characters {
+	0% {
+		transform: translateX(1800px);
+	}
+	100% {
+		transform: translateX(0);
+	}
+}
