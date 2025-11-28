@@ -190,7 +190,12 @@ function Game() {
 
 				return updatedCharStatut;
 			});
+		}
 
+		if (
+			answer !== currentQuestion.correct &&
+			!(jokers[0].used && jokers[0].gotten)
+		) {
 			setSuccesses((prev) =>
 				prev.map((success, i) =>
 					i === 1 ? { ...success, gotten: true } : success,
@@ -278,7 +283,12 @@ function Game() {
 	return (
 		<>
 			{gamePhase === "ending" ? (
-				<Endings endingScreen={endingScreen} score={score} />
+				<Endings
+					endingScreen={endingScreen}
+					score={score}
+					jokers={jokers}
+					setScore={setScore}
+				/>
 			) : (
 				<section className={`background-room ${currentNarration.name}`}>
 					<nav className="navbar">

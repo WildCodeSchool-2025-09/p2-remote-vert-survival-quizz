@@ -3,6 +3,7 @@ import type {
 	Homepage,
 	Joker,
 	Room,
+	SuccessesData,
 	VictoryScreenData,
 } from "../types/GameDataTypes";
 
@@ -297,7 +298,7 @@ export const jokersData: Joker[] = [
 	},
 ];
 
-export const successesData = [
+export const successesData: SuccessesData[] = [
 	{
 		id: 1,
 		name: "Start",

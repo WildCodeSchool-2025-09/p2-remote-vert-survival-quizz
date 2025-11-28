@@ -5,16 +5,15 @@ export default function Notification() {
 	const { notifications } = useSuccess();
 
 	return (
-		<div className={notifications.length > 0 && "box-notification"}>
+		<div className={notifications.length > 0 ? "box-notifications" : ""}>
 			{notifications.map((notification) => (
-				<>
-					<img
-						key={notification.id}
-						src={notification.img}
-						alt={notification.name}
-					/>
+				<div
+					key={notification.id}
+					className={notifications.length > 0 ? "box-notification" : ""}
+				>
+					<img src={notification.img} alt={notification.name} />
 					<p key={notification.id}>{notification.text}</p>
-				</>
+				</div>
 			))}
 		</div>
 	);

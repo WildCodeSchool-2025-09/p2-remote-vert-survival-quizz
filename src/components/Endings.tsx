@@ -4,15 +4,23 @@ import medal from "../assets/img/ending/scores/medals/gold.png";
 import { useCharacter } from "../contexts/CharacterContext";
 import { victoryTexts } from "../data/NarrationData";
 import "../styles/endings.css";
+import "../styles/success.css";
+import "../styles/notification.css";
+import { useSuccess } from "../contexts/SuccessContext";
+import type { Joker } from "../types/GameDataTypes";
+import Notification from "./Notification";
+import Success from "./Success";
 
 type EndingScreenType = "gameOver" | "victory" | null;
 
 interface EndingScreenProps {
 	endingScreen: EndingScreenType;
 	score: number[];
+	jokers: Joker[];
+	setScore: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
-function Endings({ endingScreen, score }: EndingScreenProps) {
+function Endings({ endingScreen, score, jokers, setScore }: EndingScreenProps) {
 	const [victoryPhase, setVictoryPhase] = useState("victoryScreen");
 	const [inputText, setInputText] = useState<string>("");
 	const [scoreBoardList, setScoreBoardList] = useState([
@@ -22,7 +30,54 @@ function Endings({ endingScreen, score }: EndingScreenProps) {
 		{ id: 4, name: "AlithyaMoon", score: 45, rank: 4 },
 	]);
 
-	const { characters } = useCharacter();
+	const { characters, setCharacters } = useCharacter();
+	const { setSuccesses } = useSuccess();
+
+	useEffect(() => {
+		if (jokers.every((joker) => !joker.used) && score.length === 12) {
+			setSuccesses((prev) =>
+				prev.map((success, i) =>
+					i === 6 ? { ...success, gotten: true } : success,
+				),
+			);
+		}
+	}, [jokers, score, setSuccesses]);
+
+	useEffect(() => {
+		if (
+			characters.every((character) => character.isAlive) &&
+			score.length === 12
+		) {
+			setSuccesses((prev) =>
+				prev.map((success, i) =>
+					i === 7 ? { ...success, gotten: true } : success,
+				),
+			);
+		}
+	}, [characters, score, setSuccesses]);
+
+	useEffect(() => {
+		if (
+			score.length === 4 &&
+			score.slice(0, 4).every((element) => element === 0)
+		) {
+			setSuccesses((prev) =>
+				prev.map((success, i) =>
+					i === 2 ? { ...success, gotten: true } : success,
+				),
+			);
+		}
+	}, [score, setSuccesses]);
+
+	const resetGame = () => {
+		setCharacters((prev) =>
+			prev.map((character) => ({ ...character, isAlive: true })),
+		);
+		setSuccesses((prev) =>
+			prev.map((success) => ({ ...success, gotten: false })),
+		);
+		setScore([]);
+	};
 
 	const nextVictoryPhase = () => {
 		if (victoryPhase === "victoryScreen") setVictoryPhase("victoryNarration");
@@ -88,13 +143,19 @@ function Endings({ endingScreen, score }: EndingScreenProps) {
 		<section>
 			{endingScreen === "gameOver" && (
 				<article className="gameover-screen">
+					<Success />
+					<Notification />
 					<h1 className="gameover-title">Game Over</h1>
 					<p className="gameover-score">
 						Score : {score.reduce((acc, currentValue) => acc + currentValue, 0)}{" "}
 						pts
 					</p>
 					<Link to="/">
-						<button className="gameover-button" type="button">
+						<button
+							className="gameover-button"
+							type="button"
+							onClick={resetGame}
+						>
 							Rejouer
 						</button>
 					</Link>
@@ -107,6 +168,7 @@ function Endings({ endingScreen, score }: EndingScreenProps) {
 						<>
 							<div className="confetti-wrapper"> </div>
 							<h1 className="victory-title">{victoryTexts.initial}</h1>
+							<Notification />
 							<button
 								className="victory-next"
 								type="button"
@@ -169,6 +231,7 @@ function Endings({ endingScreen, score }: EndingScreenProps) {
 
 					{victoryPhase === "scoreBoard" && (
 						<>
+							<Success />
 							<div className="victory-scoreboard">
 								<h3 className="victory-title-scoreboard">Classement</h3>
 								<div className="victory-scoreboard-box">
@@ -182,7 +245,11 @@ function Endings({ endingScreen, score }: EndingScreenProps) {
 								</div>
 							</div>
 							<Link to="/">
-								<button className="victory-retry" type="button">
+								<button
+									className="victory-retry"
+									type="button"
+									onClick={resetGame}
+								>
 									Rejouer
 								</button>
 							</Link>
