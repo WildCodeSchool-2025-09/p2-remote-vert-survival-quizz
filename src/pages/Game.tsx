@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Endings from "../components/Endings";
 import Navbar from "../components/Navbar";
+import Timer from "../components/Timer";
 import { jokersData, roomsData } from "../data/GameData";
 import "../styles/game.css";
 import "../styles/navbar.css";
@@ -24,6 +25,7 @@ function Game() {
 	const [score, setScore] = useState<number[]>([]);
 	const [jokers, setJokers] = useState<Joker[]>(jokersData);
 	const [selectedJoker, setSelectedJoker] = useState<Joker | null>(null);
+	const [soundEnabled, setSoundEnabled] = useState(true);
 
 	const { characters, setCharacters } = useCharacter();
 
@@ -400,6 +402,19 @@ function Game() {
 									{jokers[1].used && jokers[1].gotten
 										? easyQuestion.question
 										: currentQuestion.question}
+									<Timer
+										soundEnabled={soundEnabled}
+										jokers={jokers}
+										selectedAnswer={selectedAnswer}
+										toggleSound={() => {
+											setSoundEnabled(!soundEnabled);
+										}}
+										onTimeUp={() => {
+											if (selectedAnswer === null) {
+												answers("TIMEOUT");
+											}
+										}}
+									/>
 								</h1>
 								<div className="box-answers">
 									{(jokers[1].used && jokers[1].gotten
