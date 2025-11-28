@@ -1,7 +1,7 @@
 import type {
 	HomeNarration,
 	RoomNarration,
-	VictoryNarration,
+	VictoryTexts,
 } from "../types/GameDataTypes";
 
 export const homeTexts: HomeNarration = {
@@ -188,7 +188,7 @@ export const cuveLaboratoryTexts: RoomNarration = {
 	  l'aventure touchait à sa fin avec un des membres en moins de l'expédition.
 	  Ce qui restait du groupe pouvait-il cependant échapper aux flammes ?`,
 };
-export const victoryTexts: VictoryNarration = {
+export const victoryTexts: VictoryTexts = {
 	initial: "VICTOIRE !",
 	succes: `L’aube pointait enfin, douce et pâle, effleurant le ciel d’un gris lavande où s’éteignaient les dernières ombres de la nuit.
 	La malédiction du Manoir Blackwood n’était plus qu’un mauvais souvenir.
