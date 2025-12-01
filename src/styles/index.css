@@ -13,7 +13,7 @@
 }
 
 :root {
-	--box-color: #3c3838;
+	--box-color: 60, 56, 56;
 	--light-color: #e4e4e4;
 	--primary-color: #8c1002;
 
