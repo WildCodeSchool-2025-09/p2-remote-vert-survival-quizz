@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import Endings from "../components/Endings";
-import { useAudio } from "../contexts/AudioContext";
 import Navbar from "../components/Navbar";
 import Timer from "../components/Timer";
+import { useAudio } from "../contexts/AudioContext";
 import { jokersData, roomsData } from "../data/GameData";
 import "../styles/game.css";
 import "../styles/navbar.css";
