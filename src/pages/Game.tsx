@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Endings from "../components/Endings";
+import { useAudio } from "../contexts/AudioContext";
 import Navbar from "../components/Navbar";
 import Timer from "../components/Timer";
 import { jokersData, roomsData } from "../data/GameData";
@@ -17,6 +18,7 @@ import type {
 } from "../types/GameTypes";
 
 function Game() {
+	const { muted, setMuted, toggleMute, volume, setVolume } = useAudio();
 	const [questions, setQuestions] = useState<FormatQuestionsType[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [currentRoom, setCurrentRoom] = useState(1);
@@ -303,6 +305,20 @@ function Game() {
 
 					<div className="game-screen">
 						<Success />
+						<div className="box-audio">
+							<button type="button" className="mute-btn" onClick={toggleMute}>
+								{muted ? "🔇" : "🔊"}
+							</button>
+							<input
+								type="range"
+								min="0"
+								max="1"
+								step="0.01"
+								value={volume}
+								onChange={(e) => setVolume(Number(e.target.value))}
+								className="volume-slider"
+							/>
+						</div>
 						<div className="box-characters">
 							{characters
 								.filter((character) => character.isAlive)
@@ -506,49 +522,56 @@ function Game() {
 
 						{gamePhase === "question" && (
 							<article className="narration-question">
-								<h1 className="box-question">
-									{jokers[1].used && jokers[1].gotten
-										? easyQuestion.question
-										: currentQuestion.question}
-									<Timer
-										soundEnabled={soundEnabled}
-										jokers={jokers}
-										selectedAnswer={selectedAnswer}
-										toggleSound={() => {
-											setSoundEnabled(!soundEnabled);
-										}}
-										onTimeUp={() => {
-											if (selectedAnswer === null) {
-												answers("TIMEOUT");
-											}
-										}}
-									/>
-								</h1>
-								<div className="box-answers">
-									{(jokers[1].used && jokers[1].gotten
-										? easyQuestion.answers
-										: currentQuestion.answers
-									).map((answer) => (
-										<button
-											className={`button-answers ${
-												selectedAnswer === null
-													? "answer-default"
-													: answer ===
-															(jokers[1].used && jokers[1].gotten
-																? easyQuestion.correct
-																: currentQuestion.correct)
-														? "correct-answer"
-														: "wrong-answer"
-											}`}
-											type="button"
-											key={answer}
-											onClick={() => answers(answer)}
-											disabled={selectedAnswer !== null}
-										>
-											{answer}
-										</button>
-									))}
-								</div>
+								<>
+									<div className="box-question">
+										<p>
+											{currentRoom} / {questions.length}
+										</p>
+										<h1>
+											{jokers[1].used && jokers[1].gotten
+												? easyQuestion.question
+												: currentQuestion.question}
+										</h1>
+										<Timer
+											soundEnabled={soundEnabled}
+											jokers={jokers}
+											selectedAnswer={selectedAnswer}
+											toggleSound={() => {
+												setSoundEnabled(!soundEnabled);
+											}}
+											onTimeUp={() => {
+												if (selectedAnswer === null) {
+													answers("TIMEOUT");
+												}
+											}}
+										/>
+									</div>
+									<div className="box-answers">
+										{(jokers[1].used && jokers[1].gotten
+											? easyQuestion.answers
+											: currentQuestion.answers
+										).map((answer) => (
+											<button
+												className={`button-answers ${
+													selectedAnswer === null
+														? "answer-default"
+														: answer ===
+																(jokers[1].used && jokers[1].gotten
+																	? easyQuestion.correct
+																	: currentQuestion.correct)
+															? "correct-answer"
+															: "wrong-answer"
+												}`}
+												type="button"
+												key={answer}
+												onClick={() => answers(answer)}
+												disabled={selectedAnswer !== null}
+											>
+												{answer}
+											</button>
+										))}
+									</div>
+								</>
 							</article>
 						)}
 

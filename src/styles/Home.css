@@ -73,8 +73,13 @@
 	border: none;
 	border-radius: 45px;
 	cursor: pointer;
-	transform: scale(1.1);
-	transition: transform .2s ease;
+	box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5)
+		-3px -3px 6px 1px inset;
+
+	&:hover {
+		transform: scale(1.2);
+		transition: transform .2s ease;
+	}
 }
 
 .enter-button {
@@ -88,8 +93,13 @@
 	border: none;
 	border-radius: 45px;
 	cursor: pointer;
-	transform: scale(1.1);
-	transition: transform .2s ease;
+	box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5)
+		-3px -3px 6px 1px inset;
+
+	&:hover {
+		transform: scale(1.2);
+		transition: transform .2s ease;
+	}
 }
 
 .box-audio {
@@ -102,7 +112,7 @@
 }
 .volume-slider {
 	width: 150px;
-	accent-color: goldenrod;
+	accent-color: var(--primary-color);
 	cursor: pointer;
 }
 
@@ -143,8 +153,13 @@
 	border: none;
 	border-radius: 45px;
 	cursor: pointer;
-	transform: scale(1.1);
-	transition: transform .2s ease;
+	box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5)
+		-3px -3px 6px 1px inset;
+
+	&:hover {
+		transform: scale(1.2);
+		transition: transform .2s ease;
+	}
 }
 
 .narration-home-box {

@@ -8,7 +8,7 @@ import { useSuccess } from "../contexts/SuccessContext";
 import { homeTexts } from "../data/NarrationData";
 
 function Home() {
-	const { muted, toggleMute, volume, setVolume } = useAudio();
+	const { muted, setMuted, toggleMute, volume, setVolume } = useAudio();
 
 	const [showIntro, setShowIntro] = useState(true);
 	const [homeNarration, setHomeNarration] = useState(homeTexts.text1);
@@ -25,13 +25,11 @@ function Home() {
 	const nextNarration = () => {
 		if (homeNarration === homeTexts.text1) {
 			setHomeNarration(homeTexts.text2);
-			return;
 		}
 
 		if (homeNarration === homeTexts.text2) {
 			setHomeNarration(homeTexts.text3);
 			setReadyToPlay(true);
-			return;
 		}
 	};
 
@@ -43,6 +41,7 @@ function Home() {
 				i === 0 ? { ...success, gotten: true } : success,
 			),
 		);
+		setMuted(true);
 	};
 
 	return (

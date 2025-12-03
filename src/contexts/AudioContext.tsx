@@ -12,6 +12,7 @@ type AudioContextType = {
 	toggleMute: () => void;
 	volume: number;
 	setVolume: (value: number) => void;
+	setMuted: (value: boolean) => void;
 };
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
@@ -54,6 +55,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
 			value={{
 				muted,
 				toggleMute,
+				setMuted,
 				volume,
 				setVolume,
 			}}
