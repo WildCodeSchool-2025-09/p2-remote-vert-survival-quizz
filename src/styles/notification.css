@@ -1,0 +1,47 @@
+.box-notification {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	gap: 1rem;
+	background-color: rgba(var(--box-color), 0.9);
+	z-index: 100;
+	padding: 1rem;
+	animation: pop-up 3s ease forwards;
+	border-radius: 0 25px 25px 0;
+	border: 3px solid var(--light-color);
+	border-left: none;
+	margin-top: -6rem;
+
+	& > img {
+		height: 5rem;
+		width: auto;
+	}
+
+	& > p {
+		font-family: var(--text-font);
+		color: var(--light-color);
+		font-size: medium;
+	}
+}
+
+.box-notifications {
+	display: flex;
+	flex-direction: column;
+	align-self: flex-start;
+	gap: 8rem;
+}
+
+@keyframes pop-up {
+	0% {
+		transform: translateX(-500px);
+	}
+	10% {
+		transform: translateX(0);
+	}
+	80% {
+		transform: translateX(0);
+	}
+	100% {
+		transform: translateX(-500px);
+	}
+}

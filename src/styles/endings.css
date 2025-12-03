@@ -18,6 +18,8 @@
 	margin: 0;
 	font-weight: 300;
 	padding-top: 80px;
+	position: absolute;
+	top: 50px;
 }
 
 .gameover-score {
@@ -27,6 +29,8 @@
 	font-size: 80px;
 	text-align: center;
 	margin: 0;
+	position: absolute;
+	top: 350px;
 }
 
 .gameover-button {
@@ -38,7 +42,9 @@
 	height: 70px;
 	border: none;
 	border-radius: 45px;
-	z-index: 2;
+	position: absolute;
+	top: 450px;
+	right: 525px;
 	cursor: pointer;
 	margin-top: 50px;
 	box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5)
@@ -104,7 +110,7 @@
 .victory-narration {
 	min-width: 60%;
 	max-width: 55%;
-	background-color: var(--box-color);
+	background-color: rgba(var(--box-color), 0.9);
 	color: var(--light-color);
 	font-family: var(--text-font);
 	font-size: 25px;
@@ -174,7 +180,7 @@
 	flex-direction: column;
 	align-items: center;
 	margin-top: 150px;
-	background-color: var(--box-color);
+	background-color: rgba(var(--box-color), 0.9);
 	color: var(--light-color);
 	font-family: var(--text-font);
 	font-size: 20px;
@@ -193,7 +199,7 @@
 	width: 13vw;
 	font-family: var(--text-font);
 	font-size: 25px;
-	color: var(--box-color);
+	color: rgba(var(--box-color));
 	padding-left: 25px;
 	background-color: rgba(220, 209, 209, 0.857);
 }
@@ -224,7 +230,7 @@
 	align-items: center;
 	min-width: 40%;
 	max-width: 40%;
-	background-color: var(--box-color);
+	background-color: rgba(var(--box-color), 0.9);
 	color: var(--light-color);
 	font-family: var(--text-font);
 	font-size: 25px;
@@ -234,6 +240,8 @@
 	padding: 10px;
 	text-align: justify;
 	margin-top: 30px;
+	position: absolute;
+	top: 100px;
 }
 
 .victory-title-scoreboard {
@@ -269,7 +277,7 @@
 	justify-content: space-between;
 	align-items: center;
 	gap: 80px;
-	background-color: var(--box-color);
+	background-color: rgba(var(--box-color), 0.9);
 	color: var(--light-color);
 	font-family: var(--text-font);
 	font-size: 25px;
@@ -293,6 +301,9 @@
 	cursor: pointer;
 	box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5)
 		-3px -3px 6px 1px inset;
+	position: absolute;
+	top: 900px;
+	left: 900px;
 
 	&:hover {
 		transform: scale(1.2);

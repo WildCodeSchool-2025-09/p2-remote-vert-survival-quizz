@@ -161,7 +161,7 @@
 	width: 90%;
 	max-width: 100rem;
 	min-width: 90rem;
-	background-color: var(--box-color);
+	background-color: rgba(var(--box-color), 0.9);
 	color: var(--light-color);
 	font-family: var(--text-font);
 	font-size: 20px;

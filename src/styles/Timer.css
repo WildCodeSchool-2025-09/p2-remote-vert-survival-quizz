@@ -1,0 +1,28 @@
+.timer-container {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	border: 10px solid #55250e;
+	border-radius: 45px;
+}
+.button-sound-heart {
+	display: flex;
+	justify-content: space-between;
+	align-items: start;
+}
+.timebar {
+	display: flex;
+	gap: 5px;
+	width: 20px;
+	height: 10px;
+	background-color: green;
+	border: 1px solid white;
+}
+.timebar-red {
+	display: flex;
+	gap: 5px;
+	width: 20px;
+	height: 10px;
+	background-color: rgba(255, 0, 0, 0.478);
+	border: 1px solid white;
+}

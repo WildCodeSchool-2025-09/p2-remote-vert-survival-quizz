@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import Endings from "../components/Endings";
 import Navbar from "../components/Navbar";
+import Timer from "../components/Timer";
 import { jokersData, roomsData } from "../data/GameData";
 import "../styles/game.css";
 import "../styles/navbar.css";
+import Notification from "../components/Notification";
+import Success from "../components/Success";
 import { useCharacter } from "../contexts/CharacterContext";
+import { useSuccess } from "../contexts/SuccessContext";
 import type { Joker } from "../types/GameDataTypes";
 import type {
 	DataType,
@@ -24,8 +28,10 @@ function Game() {
 	const [score, setScore] = useState<number[]>([]);
 	const [jokers, setJokers] = useState<Joker[]>(jokersData);
 	const [selectedJoker, setSelectedJoker] = useState<Joker | null>(null);
+	const [soundEnabled, setSoundEnabled] = useState(true);
 
 	const { characters, setCharacters } = useCharacter();
+	const { setSuccesses } = useSuccess();
 
 	useEffect(() => {
 		setLoading(true);
@@ -110,6 +116,11 @@ function Game() {
 				),
 			);
 			setSelectedJoker(null);
+			setSuccesses((prev) =>
+				prev.map((success, i) =>
+					currentRoom === 5 && i === 4 ? { ...success, gotten: true } : success,
+				),
+			);
 		} else {
 			setGamePhase("ending");
 			setEndingScreen("victory");
@@ -183,6 +194,17 @@ function Game() {
 			});
 		}
 
+		if (
+			answer !== currentQuestion.correct &&
+			!(jokers[0].used && jokers[0].gotten)
+		) {
+			setSuccesses((prev) =>
+				prev.map((success, i) =>
+					i === 1 ? { ...success, gotten: true } : success,
+				),
+			);
+		}
+
 		setScore(score);
 
 		const goodAnswerCombo: number[] = [];
@@ -222,6 +244,22 @@ function Game() {
 			),
 		);
 
+		setSuccesses((prev) =>
+			prev.map((success, i) =>
+				combosWon.includes(2) && i === 3
+					? { ...success, gotten: true }
+					: success,
+			),
+		);
+
+		setSuccesses((prev) =>
+			prev.map((success, i) =>
+				combosWon.includes(8) && i === 5
+					? { ...success, gotten: true }
+					: success,
+			),
+		);
+
 		setTimeout(() => {
 			setGamePhase("answer");
 		}, 1000);
@@ -247,7 +285,12 @@ function Game() {
 	return (
 		<>
 			{gamePhase === "ending" ? (
-				<Endings endingScreen={endingScreen} score={score} />
+				<Endings
+					endingScreen={endingScreen}
+					score={score}
+					jokers={jokers}
+					setScore={setScore}
+				/>
 			) : (
 				<section className={`background-room ${currentNarration.name}`}>
 					<nav className="navbar">
@@ -259,6 +302,7 @@ function Game() {
 					</nav>
 
 					<div className="game-screen">
+						<Success />
 						<div className="box-characters">
 							{characters
 								.filter((character) => character.isAlive)
@@ -271,6 +315,72 @@ function Game() {
 									/>
 								))}
 						</div>
+						<Notification />
+
+						{gamePhase === "narration" && (
+							<article className="narration-phase">
+								<p className="box-narration">
+									{currentNarration?.narrationText}
+								</p>
+								<button
+									className="button-next"
+									type="button"
+									onClick={nextPhase}
+								>
+									Suivant
+								</button>
+							</article>
+						)}
+
+						{gamePhase === "chooseJoker" && (
+							<article className="narration-phase">
+								<div className="box-narration joker">
+									<p>
+										Est-ce que tu veux utiliser un joker ?<br />
+										(Clique sur un joker pour pouvoir l’utiliser !)
+									</p>
+									<div className="jokers-box">
+										{jokers.map((joker) => (
+											<>
+												<button
+													className="button-joker"
+													key={joker.id}
+													type="button"
+													onClick={() => {
+														setGamePhase("jokerValidation");
+														setSelectedJoker(joker);
+													}}
+													disabled={
+														!joker.gotten || (joker.gotten && joker.used)
+													}
+												>
+													<img
+														src={
+															joker.gotten && !joker.used
+																? joker.img_gotten
+																: joker.img_not_gotten
+														}
+														alt={joker.name}
+														className="image-joker"
+													/>
+												</button>
+												<div key={joker.id} className="info-wrapper">
+													<p
+														key={joker.id}
+														className="infobulle"
+														data-joker-id={joker.id}
+													>
+														{" "}
+														i{" "}
+													</p>
+													<p className="info-text"> {joker.text}</p>
+												</div>
+											</>
+										))}
+									</div>
+								</div>
+							</article>
+						)}
 
 						{gamePhase === "narration" && (
 							<article className="narration-phase">
@@ -400,6 +510,19 @@ function Game() {
 									{jokers[1].used && jokers[1].gotten
 										? easyQuestion.question
 										: currentQuestion.question}
+									<Timer
+										soundEnabled={soundEnabled}
+										jokers={jokers}
+										selectedAnswer={selectedAnswer}
+										toggleSound={() => {
+											setSoundEnabled(!soundEnabled);
+										}}
+										onTimeUp={() => {
+											if (selectedAnswer === null) {
+												answers("TIMEOUT");
+											}
+										}}
+									/>
 								</h1>
 								<div className="box-answers">
 									{(jokers[1].used && jokers[1].gotten

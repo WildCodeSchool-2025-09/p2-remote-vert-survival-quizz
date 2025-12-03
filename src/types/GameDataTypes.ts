@@ -79,3 +79,13 @@ export interface VictoryScreenData {
 	initial: string;
 	succes: string;
 }
+
+export interface SuccessesData {
+	id: number;
+	name: string;
+	img_gotten: string;
+	img_not_gotten: string;
+	text: string;
+	gotten: boolean;
+	notified: boolean;
+}

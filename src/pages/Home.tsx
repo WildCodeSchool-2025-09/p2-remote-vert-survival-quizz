@@ -4,6 +4,7 @@ import "../styles/Home.css";
 import text3Sound from "../assets/sounds/Grincement de porte.mp3";
 import RainEffect from "../components/RainEffect";
 import { useAudio } from "../contexts/AudioContext";
+import { useSuccess } from "../contexts/SuccessContext";
 import { homeTexts } from "../data/NarrationData";
 
 function Home() {
@@ -32,6 +33,16 @@ function Home() {
 			setReadyToPlay(true);
 			return;
 		}
+	};
+
+	const { setSuccesses } = useSuccess();
+
+	const successGotten = () => {
+		setSuccesses((prev) =>
+			prev.map((success, i) =>
+				i === 0 ? { ...success, gotten: true } : success,
+			),
+		);
 	};
 
 	return (
@@ -103,7 +114,11 @@ function Home() {
 
 				{readyToPlay && (
 					<Link to="/game">
-						<button type="button" className="enter-button">
+						<button
+							type="button"
+							className="enter-button"
+							onClick={successGotten}
+						>
 							Entrer
 						</button>
 					</Link>
