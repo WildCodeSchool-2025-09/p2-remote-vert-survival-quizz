@@ -1,18 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import "../styles/Home.css";
+import text3Sound from "../assets/sounds/Grincement de porte.mp3";
 import RainEffect from "../components/RainEffect";
 import { useAudio } from "../contexts/AudioContext";
 import { homeTexts } from "../data/NarrationData";
 
 function Home() {
-	const { muted, toggleMute, volume, volumeChange } = useAudio();
+	const { muted, toggleMute, volume, setVolume } = useAudio();
 
 	const [showIntro, setShowIntro] = useState(true);
-
 	const [homeNarration, setHomeNarration] = useState(homeTexts.text1);
 	const [showNarration, setShowNarration] = useState(false);
 	const [readyToPlay, setReadyToPlay] = useState(false);
+
+	useEffect(() => {
+		if (homeNarration === homeTexts.text3) {
+			const audio = new Audio(text3Sound);
+			audio.play().catch(() => {});
+		}
+	}, [homeNarration]);
 
 	const nextNarration = () => {
 		if (homeNarration === homeTexts.text1) {
@@ -23,18 +30,16 @@ function Home() {
 		if (homeNarration === homeTexts.text2) {
 			setHomeNarration(homeTexts.text3);
 			setReadyToPlay(true);
-
-			return;
-		}
-		if (homeNarration === homeTexts.text3) {
-			setReadyToPlay(true);
-
 			return;
 		}
 	};
 
 	return (
-		<main>
+		<main
+			className={`home-main ${
+				homeNarration === homeTexts.text3 ? "phase3" : ""
+			}`}
+		>
 			<RainEffect />
 
 			<div className="box-audio">
@@ -47,7 +52,7 @@ function Home() {
 					max="1"
 					step="0.01"
 					value={volume}
-					onChange={volumeChange}
+					onChange={(e) => setVolume(Number(e.target.value))}
 					className="volume-slider"
 				/>
 			</div>
@@ -65,7 +70,7 @@ function Home() {
 							type="button"
 							className="start-home-button"
 							onClick={() => {
-								setShowIntro(false); //
+								setShowIntro(false);
 								setShowNarration(true);
 							}}
 						>
@@ -76,7 +81,13 @@ function Home() {
 
 				{showNarration && !showIntro && (
 					<div className="narration-home-box">
-						<p className="narration-text-home">{homeNarration}</p>
+						<p
+							className={`narration-text-home ${
+								homeNarration === homeTexts.text3 ? "main-text3" : ""
+							}`}
+						>
+							{homeNarration}
+						</p>
 
 						{homeNarration !== homeTexts.text3 && (
 							<button

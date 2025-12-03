@@ -11,7 +11,7 @@ type AudioContextType = {
 	muted: boolean;
 	toggleMute: () => void;
 	volume: number;
-	volumeChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	setVolume: (value: number) => void;
 };
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
@@ -22,17 +22,11 @@ export function AudioProvider({ children }: { children: ReactNode }) {
 	const [volume, setVolume] = useState(1);
 
 	const toggleMute = () => {
-		if (audioRef.current) {
-			audioRef.current.muted = !muted;
-			setMuted(!muted);
-		}
-	};
-	const volumeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const newVolume = Number.parseFloat(event.target.value);
-		setVolume(newVolume);
-		if (audioRef.current) {
-			audioRef.current.volume = newVolume;
-		}
+		if (!audioRef.current) return;
+
+		const nextMuted = !muted;
+		audioRef.current.muted = nextMuted;
+		setMuted(nextMuted);
 	};
 
 	useEffect(() => {
@@ -48,6 +42,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
 
 		return () => window.removeEventListener("click", startOnFirstClick);
 	}, []);
+
 	useEffect(() => {
 		if (audioRef.current) {
 			audioRef.current.volume = volume;
@@ -55,7 +50,14 @@ export function AudioProvider({ children }: { children: ReactNode }) {
 	}, [volume]);
 
 	return (
-		<AudioContext.Provider value={{ muted, toggleMute, volume, volumeChange }}>
+		<AudioContext.Provider
+			value={{
+				muted,
+				toggleMute,
+				volume,
+				setVolume,
+			}}
+		>
 			<audio ref={audioRef} autoPlay loop preload="auto">
 				<source src="/sounds/home/ambient_sound_home.mp3" type="audio/mpeg" />
 				<track
