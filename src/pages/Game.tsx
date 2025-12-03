@@ -6,6 +6,7 @@ import { useAudio } from "../contexts/AudioContext";
 import { jokersData, roomsData } from "../data/GameData";
 import "../styles/game.css";
 import "../styles/navbar.css";
+import "../styles/mobile.css";
 import Notification from "../components/Notification";
 import Success from "../components/Success";
 import { useCharacter } from "../contexts/CharacterContext";
@@ -18,7 +19,7 @@ import type {
 } from "../types/GameTypes";
 
 function Game() {
-	const { muted, setMuted, toggleMute, volume, setVolume } = useAudio();
+	const { muted, toggleMute, volume, setVolume } = useAudio();
 	const [questions, setQuestions] = useState<FormatQuestionsType[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [currentRoom, setCurrentRoom] = useState(1);
@@ -304,6 +305,7 @@ function Game() {
 					</nav>
 
 					<div className="game-screen">
+						<Notification />
 						<Success />
 						<div className="box-audio">
 							<button type="button" className="mute-btn" onClick={toggleMute}>
@@ -331,7 +333,6 @@ function Game() {
 									/>
 								))}
 						</div>
-						<Notification />
 
 						{gamePhase === "narration" && (
 							<article className="narration-phase">

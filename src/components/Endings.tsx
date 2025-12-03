@@ -143,22 +143,26 @@ function Endings({ endingScreen, score, jokers, setScore }: EndingScreenProps) {
 		<section>
 			{endingScreen === "gameOver" && (
 				<article className="gameover-screen">
-					<Success />
 					<Notification />
-					<h1 className="gameover-title">Game Over</h1>
-					<p className="gameover-score">
-						Score : {score.reduce((acc, currentValue) => acc + currentValue, 0)}{" "}
-						pts
-					</p>
-					<Link to="/">
-						<button
-							className="gameover-button"
-							type="button"
-							onClick={resetGame}
-						>
-							Rejouer
-						</button>
-					</Link>
+					<div className="gameover-box">
+						<div className="gameover-success-box">
+							<Success />
+						</div>
+						<h1 className="gameover-title">Game Over</h1>
+						<p className="gameover-score">
+							Score :{" "}
+							{score.reduce((acc, currentValue) => acc + currentValue, 0)} pts
+						</p>
+						<Link to="/">
+							<button
+								className="gameover-button"
+								type="button"
+								onClick={resetGame}
+							>
+								Rejouer
+							</button>
+						</Link>
+					</div>
 				</article>
 			)}
 
@@ -167,32 +171,34 @@ function Endings({ endingScreen, score, jokers, setScore }: EndingScreenProps) {
 					{victoryPhase === "victoryScreen" && (
 						<>
 							<div className="confetti-wrapper"> </div>
-							<h1 className="victory-title">{victoryTexts.initial}</h1>
-							<Notification />
-							<button
-								className="victory-next"
-								type="button"
-								onClick={nextVictoryPhase}
-							>
-								Suivant
-							</button>
-							<div className="box-characters-ending">
-								{characters
-									.filter((character) => character.isAlive)
-									.map((character) => (
-										<img
-											className="character-animation"
-											key={character.id}
-											src={character.image}
-											alt={character.name}
-										/>
-									))}
+							<div className="victory-screen-box">
+								<h1 className="victory-title">{victoryTexts.initial}</h1>
+								<Notification />
+								<div className="box-characters-ending">
+									{characters
+										.filter((character) => character.isAlive)
+										.map((character) => (
+											<img
+												className="character-animation"
+												key={character.id}
+												src={character.image}
+												alt={character.name}
+											/>
+										))}
+								</div>
+								<button
+									className="victory-next"
+									type="button"
+									onClick={nextVictoryPhase}
+								>
+									Suivant
+								</button>
 							</div>
 						</>
 					)}
 
 					{victoryPhase === "victoryNarration" && (
-						<>
+						<div className="victory-narration-box">
 							<p className="victory-narration">{victoryTexts.succes}</p>
 							<button
 								className="victory-button"
@@ -201,23 +207,25 @@ function Endings({ endingScreen, score, jokers, setScore }: EndingScreenProps) {
 							>
 								Suivant
 							</button>
-						</>
+						</div>
 					)}
 
 					{victoryPhase === "gamerName" && (
-						<div className="victory-input-box">
-							<img
-								className="victory-input-logo"
-								src={medal}
-								alt="Logo medal"
-							/>
-							<input
-								className="victory-input"
-								type="text"
-								value={inputText}
-								placeholder="Ajoute ton pseudo ici..."
-								onChange={(event) => setInputText(event.target.value)}
-							/>
+						<div className="game-name-box">
+							<div className="victory-input-box">
+								<img
+									className="victory-input-logo"
+									src={medal}
+									alt="Logo medal"
+								/>
+								<input
+									className="victory-input"
+									type="text"
+									value={inputText}
+									placeholder="Ajoute ton pseudo ici..."
+									onChange={(event) => setInputText(event.target.value)}
+								/>
+							</div>
 							<button
 								className="victory-input-button"
 								type="button"
@@ -230,8 +238,10 @@ function Endings({ endingScreen, score, jokers, setScore }: EndingScreenProps) {
 					)}
 
 					{victoryPhase === "scoreBoard" && (
-						<>
-							<Success />
+						<div className="score-board-box">
+							<div className="gameover-success-box">
+								<Success />
+							</div>
 							<div className="victory-scoreboard">
 								<h3 className="victory-title-scoreboard">Classement</h3>
 								<div className="victory-scoreboard-box">
@@ -253,7 +263,7 @@ function Endings({ endingScreen, score, jokers, setScore }: EndingScreenProps) {
 									Rejouer
 								</button>
 							</Link>
-						</>
+						</div>
 					)}
 				</article>
 			)}
