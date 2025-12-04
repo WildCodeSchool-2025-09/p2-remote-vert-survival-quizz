@@ -1,13 +1,23 @@
 .gameover-screen {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
 	background-image: url("/src/assets/img/ending/backgrounds/game_over_all_dead.png");
 	width: 100vw;
 	height: 100vh;
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center 30%;
+}
+
+.gameover-success-box {
+	align-self: end;
+	position: absolute;
+	z-index: 100;
+}
+
+.gameover-box {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding-top: 120px;
 }
 
 .gameover-title {
@@ -18,8 +28,6 @@
 	margin: 0;
 	font-weight: 300;
 	padding-top: 80px;
-	position: absolute;
-	top: 50px;
 }
 
 .gameover-score {
@@ -29,8 +37,6 @@
 	font-size: 80px;
 	text-align: center;
 	margin: 0;
-	position: absolute;
-	top: 350px;
 }
 
 .gameover-button {
@@ -42,7 +48,6 @@
 	height: 70px;
 	border: none;
 	border-radius: 45px;
-	position: absolute;
 	top: 450px;
 	right: 525px;
 	cursor: pointer;
@@ -56,17 +61,21 @@
 }
 
 .victory-screen {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	z-index: 3;
-	position: absolute;
 	background-image: url("/src/assets/img/ending/backgrounds/out_end.png");
 	width: 100vw;
 	height: 100vh;
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center 30%;
+}
+
+.victory-screen-box {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
 }
 
 .victory-title {
@@ -107,6 +116,12 @@
 	}
 }
 
+.victory-narration-box {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
 .victory-narration {
 	min-width: 60%;
 	max-width: 55%;
@@ -132,10 +147,8 @@
 	height: 70px;
 	border: none;
 	border-radius: 45px;
-	margin-left: 1500px;
-	top: 50rem;
-	position: absolute;
-	z-index: 2;
+	align-self: end;
+	margin: 0 100px 50px 0;
 	cursor: pointer;
 	box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5)
 		-3px -3px 6px 1px inset;
@@ -154,8 +167,8 @@
 	height: 70px;
 	border: none;
 	border-radius: 45px;
-	margin-left: 1000px;
-	margin-top: -55px;
+	margin-left: 1600px;
+	margin-top: -65px;
 	z-index: 2;
 	cursor: pointer;
 	box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5)
@@ -175,6 +188,12 @@
 	width: 2vw;
 }
 
+.game-name-box {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
 .victory-input-box {
 	display: flex;
 	flex-direction: column;
@@ -187,7 +206,7 @@
 	opacity: 90%;
 	border: 5px solid var(--box-color);
 	border-radius: 45px;
-	padding: 15px 50px 10px;
+	padding: 15px 50px 80px 50px;
 	text-align: justify;
 }
 .victory-input {
@@ -195,7 +214,7 @@
 	border: 2px solid var(--box-color);
 	display: flex;
 	flex-direction: column;
-	margin-top: 25px;
+	margin-top: 50px;
 	width: 13vw;
 	font-family: var(--text-font);
 	font-size: 25px;
@@ -206,7 +225,7 @@
 
 .victory-input-button {
 	justify-content: center;
-	background-color: #8d0101dd;
+	background-color: var(--primary-color);
 	border: 5px solid var(--box-color);
 	font-family: var(--text-font);
 	font-size: 32px;
@@ -215,7 +234,8 @@
 	height: 70px;
 	border-radius: 45px;
 	cursor: pointer;
-	margin-top: 50px;
+	margin-top: -35px;
+	z-index: 2;
 	box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5)
 		-3px -3px 6px 1px inset;
 
@@ -224,24 +244,27 @@
 	}
 }
 
+.score-board-box {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
 .victory-scoreboard {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	min-width: 40%;
-	max-width: 40%;
+
 	background-color: rgba(var(--box-color), 0.9);
 	color: var(--light-color);
 	font-family: var(--text-font);
 	font-size: 25px;
-	opacity: 90%;
 	border: 5px solid var(--box-color);
 	border-radius: 45px;
-	padding: 10px;
+	padding: 10px 0 70px 0;
 	text-align: justify;
-	margin-top: 30px;
-	position: absolute;
-	top: 100px;
+	margin-top: 100px;
 }
 
 .victory-title-scoreboard {
@@ -261,6 +284,7 @@
 .victory-scoreboard-box {
 	display: flex;
 	flex-direction: column;
+	width: 80%;
 	margin: 5px 5px 5px;
 	background-color: #564b4b;
 	color: var(--light-color);
@@ -283,10 +307,10 @@
 	font-size: 25px;
 	border-radius: 45px;
 	padding: 15px;
-	padding-left: 15px;
 	text-align: justify;
 	margin: 15px;
 	height: 5vh;
+	width: 90%;
 }
 
 .victory-retry {
@@ -301,9 +325,8 @@
 	cursor: pointer;
 	box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5)
 		-3px -3px 6px 1px inset;
-	position: absolute;
-	top: 900px;
-	left: 900px;
+	z-index: 3;
+	margin-top: -50px;
 
 	&:hover {
 		transform: scale(1.2);

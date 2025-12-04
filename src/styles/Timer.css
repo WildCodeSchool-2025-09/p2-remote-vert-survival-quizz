@@ -2,8 +2,7 @@
 	display: flex;
 	align-items: center;
 	gap: 5px;
-	border: 10px solid #55250e;
-	border-radius: 45px;
+	padding-bottom: 70px;
 }
 .button-sound-heart {
 	display: flex;

@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import Endings from "../components/Endings";
 import Navbar from "../components/Navbar";
 import Timer from "../components/Timer";
+import { useAudio } from "../contexts/AudioContext";
 import { jokersData, roomsData } from "../data/GameData";
 import "../styles/game.css";
 import "../styles/navbar.css";
+import "../styles/mobile.css";
 import Notification from "../components/Notification";
 import Success from "../components/Success";
 import { useCharacter } from "../contexts/CharacterContext";
@@ -17,6 +19,7 @@ import type {
 } from "../types/GameTypes";
 
 function Game() {
+	const { muted, toggleMute, volume, setVolume } = useAudio();
 	const [questions, setQuestions] = useState<FormatQuestionsType[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [currentRoom, setCurrentRoom] = useState(1);
@@ -302,7 +305,22 @@ function Game() {
 					</nav>
 
 					<div className="game-screen">
+						<Notification />
 						<Success />
+						<div className="box-audio">
+							<button type="button" className="mute-btn" onClick={toggleMute}>
+								{muted ? "🔇" : "🔊"}
+							</button>
+							<input
+								type="range"
+								min="0"
+								max="1"
+								step="0.01"
+								value={volume}
+								onChange={(e) => setVolume(Number(e.target.value))}
+								className="volume-slider"
+							/>
+						</div>
 						<div className="box-characters">
 							{characters
 								.filter((character) => character.isAlive)
@@ -315,72 +333,6 @@ function Game() {
 									/>
 								))}
 						</div>
-						<Notification />
-
-						{gamePhase === "narration" && (
-							<article className="narration-phase">
-								<p className="box-narration">
-									{currentNarration?.narrationText}
-								</p>
-								<button
-									className="button-next"
-									type="button"
-									onClick={nextPhase}
-								>
-									Suivant
-								</button>
-							</article>
-						)}
-
-						{gamePhase === "chooseJoker" && (
-							<article className="narration-phase">
-								<div className="box-narration joker">
-									<p>
-										Est-ce que tu veux utiliser un joker ?<br />
-										(Clique sur un joker pour pouvoir l’utiliser !)
-									</p>
-									<div className="jokers-box">
-										{jokers.map((joker) => (
-											<>
-												<button
-													className="button-joker"
-													key={joker.id}
-													type="button"
-													onClick={() => {
-														setGamePhase("jokerValidation");
-														setSelectedJoker(joker);
-													}}
-													disabled={
-														!joker.gotten || (joker.gotten && joker.used)
-													}
-												>
-													<img
-														src={
-															joker.gotten && !joker.used
-																? joker.img_gotten
-																: joker.img_not_gotten
-														}
-														alt={joker.name}
-														className="image-joker"
-													/>
-												</button>
-												<div key={joker.id} className="info-wrapper">
-													<p
-														key={joker.id}
-														className="infobulle"
-														data-joker-id={joker.id}
-													>
-														{" "}
-														i{" "}
-													</p>
-													<p className="info-text"> {joker.text}</p>
-												</div>
-											</>
-										))}
-									</div>
-								</div>
-							</article>
-						)}
 
 						{gamePhase === "narration" && (
 							<article className="narration-phase">
@@ -506,49 +458,56 @@ function Game() {
 
 						{gamePhase === "question" && (
 							<article className="narration-question">
-								<h1 className="box-question">
-									{jokers[1].used && jokers[1].gotten
-										? easyQuestion.question
-										: currentQuestion.question}
-									<Timer
-										soundEnabled={soundEnabled}
-										jokers={jokers}
-										selectedAnswer={selectedAnswer}
-										toggleSound={() => {
-											setSoundEnabled(!soundEnabled);
-										}}
-										onTimeUp={() => {
-											if (selectedAnswer === null) {
-												answers("TIMEOUT");
-											}
-										}}
-									/>
-								</h1>
-								<div className="box-answers">
-									{(jokers[1].used && jokers[1].gotten
-										? easyQuestion.answers
-										: currentQuestion.answers
-									).map((answer) => (
-										<button
-											className={`button-answers ${
-												selectedAnswer === null
-													? "answer-default"
-													: answer ===
-															(jokers[1].used && jokers[1].gotten
-																? easyQuestion.correct
-																: currentQuestion.correct)
-														? "correct-answer"
-														: "wrong-answer"
-											}`}
-											type="button"
-											key={answer}
-											onClick={() => answers(answer)}
-											disabled={selectedAnswer !== null}
-										>
-											{answer}
-										</button>
-									))}
-								</div>
+								<>
+									<div className="box-question">
+										<p>
+											{currentRoom} / {questions.length}
+										</p>
+										<h1>
+											{jokers[1].used && jokers[1].gotten
+												? easyQuestion.question
+												: currentQuestion.question}
+										</h1>
+										<Timer
+											soundEnabled={soundEnabled}
+											jokers={jokers}
+											selectedAnswer={selectedAnswer}
+											toggleSound={() => {
+												setSoundEnabled(!soundEnabled);
+											}}
+											onTimeUp={() => {
+												if (selectedAnswer === null) {
+													answers("TIMEOUT");
+												}
+											}}
+										/>
+									</div>
+									<div className="box-answers">
+										{(jokers[1].used && jokers[1].gotten
+											? easyQuestion.answers
+											: currentQuestion.answers
+										).map((answer) => (
+											<button
+												className={`button-answers ${
+													selectedAnswer === null
+														? "answer-default"
+														: answer ===
+																(jokers[1].used && jokers[1].gotten
+																	? easyQuestion.correct
+																	: currentQuestion.correct)
+															? "correct-answer"
+															: "wrong-answer"
+												}`}
+												type="button"
+												key={answer}
+												onClick={() => answers(answer)}
+												disabled={selectedAnswer !== null}
+											>
+												{answer}
+											</button>
+										))}
+									</div>
+								</>
 							</article>
 						)}
 

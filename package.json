@@ -20,7 +20,7 @@
 		"react-router": "^7.9.5"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "1.9.2",
+		"@biomejs/biome": "^1.9.2",
 		"@commitlint/cli": "^19.5.0",
 		"@commitlint/config-conventional": "^19.5.0",
 		"@eslint/js": "^9.13.0",
