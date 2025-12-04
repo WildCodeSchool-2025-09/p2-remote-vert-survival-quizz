@@ -15,20 +15,23 @@
 	border-right: none;
 	z-index: 9;
 	transition: width 0.4s ease, height 0.4s ease;
-	position: absolute;
-
-	& > img {
-		padding-top: 15px;
-	}
+	position: relative;
 
 	& > .success-list {
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 0;
+		height: 0;
+		overflow: hidden;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		margin-left: 10px;
 		opacity: 0;
 		visibility: hidden;
-		transition: opacity 0.4s 0.3s ease, transform 0.4s ease;
+		transition: opacity 0.4s 0.3s ease, width 0.4s ease, height 0.4s ease,
+			transform 0.4s ease;
 	}
 
 	&:hover {
@@ -36,7 +39,10 @@
 		height: 455px;
 
 		& > .success-list {
-			display: flex;
+			position: static;
+			width: auto;
+			height: auto;
+			overflow: visible;
 			align-items: center;
 			justify-content: center;
 			margin-left: 10px;

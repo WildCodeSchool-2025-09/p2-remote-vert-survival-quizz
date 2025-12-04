@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import "../styles/Home.css";
+import styles from "../styles/Home.module.css";
 
 const RainEffect = () => {
 	const containerRef = useRef<HTMLDivElement>(null);
@@ -10,14 +10,11 @@ const RainEffect = () => {
 
 		const createRaindrop = () => {
 			const drop = document.createElement("div");
-			drop.className = "raindrop";
+			drop.className = styles.raindrop;
 
 			drop.style.left = `${Math.random() * 100}vw`;
-
 			drop.style.animationDuration = `${1 + Math.random() * 2}s`;
-
 			drop.style.height = `${10 + Math.random() * 30}px`;
-
 			drop.style.setProperty("--drift", `${Math.random() * 40 - 20}px`);
 
 			container.appendChild(drop);
@@ -29,11 +26,13 @@ const RainEffect = () => {
 
 		return () => {
 			clearInterval(interval);
-			container.innerHTML = "";
+
+			if (container) {
+				container.innerHTML = "";
+			}
 		};
 	}, []);
-
-	return <div ref={containerRef} className="rain-container" />;
+	return <div ref={containerRef} className={styles["rain-container"]} />;
 };
 
 export default RainEffect;

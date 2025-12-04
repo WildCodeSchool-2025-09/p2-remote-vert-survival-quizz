@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import "../styles/Home.css";
 import text3Sound from "../assets/sounds/Grincement de porte.mp3";
 import RainEffect from "../components/RainEffect";
 import { useAudio } from "../contexts/AudioContext";
 import { useSuccess } from "../contexts/SuccessContext";
 import { homeTexts } from "../data/NarrationData";
+import styles from "../styles/Home.module.css";
 
 function Home() {
 	const { muted, setMuted, toggleMute, volume, setVolume } = useAudio();
@@ -46,14 +46,18 @@ function Home() {
 
 	return (
 		<main
-			className={`home-main ${
-				homeNarration === homeTexts.text3 ? "phase3" : ""
+			className={`${styles["home-main"]} ${
+				homeNarration === homeTexts.text3 ? styles.phase3 : ""
 			}`}
 		>
 			<RainEffect />
 
-			<div className="box-audio">
-				<button type="button" className="mute-btn" onClick={toggleMute}>
+			<div className={styles["box-audio"]}>
+				<button
+					type="button"
+					className={styles["mute-btn"]}
+					onClick={toggleMute}
+				>
 					{muted ? "🔇" : "🔊"}
 				</button>
 				<input
@@ -63,14 +67,15 @@ function Home() {
 					step="0.01"
 					value={volume}
 					onChange={(e) => setVolume(Number(e.target.value))}
-					className="volume-slider"
+					className={styles["volume-slider"]}
 				/>
 			</div>
 
-			<div className="homepage-main-content">
+			{/* Notation crochets obligatoire à cause des tirets */}
+			<div className={styles["homepage-main-content"]}>
 				{showIntro && (
 					<>
-						<h1>React Evil</h1>
+						<h1 className={styles["homepage-main-content-h1"]}>React Evil</h1>
 						<p>
 							Entre dans l'univers de ce survival Quiz. Arriveras-tu à sortir en
 							un seul morceau de ce manoir ?
@@ -78,7 +83,7 @@ function Home() {
 
 						<button
 							type="button"
-							className="start-home-button"
+							className={styles["start-home-button"]}
 							onClick={() => {
 								setShowIntro(false);
 								setShowNarration(true);
@@ -90,10 +95,10 @@ function Home() {
 				)}
 
 				{showNarration && !showIntro && (
-					<div className="narration-home-box">
+					<div className={styles["narration-home-box"]}>
 						<p
-							className={`narration-text-home ${
-								homeNarration === homeTexts.text3 ? "main-text3" : ""
+							className={`${styles["narration-text-home"]} ${
+								homeNarration === homeTexts.text3 ? styles["main-text3"] : ""
 							}`}
 						>
 							{homeNarration}
@@ -102,7 +107,7 @@ function Home() {
 						{homeNarration !== homeTexts.text3 && (
 							<button
 								type="button"
-								className="next-narration-home"
+								className={styles["next-narration-home"]}
 								onClick={nextNarration}
 							>
 								Suivant
@@ -115,7 +120,7 @@ function Home() {
 					<Link to="/game">
 						<button
 							type="button"
-							className="enter-button"
+							className={styles["enter-button"]}
 							onClick={successGotten}
 						>
 							Entrer
