@@ -172,6 +172,13 @@ function Endings({ endingScreen, score, jokers, setScore }: EndingScreenProps) {
 						<>
 							<div className="confetti-wrapper"> </div>
 							<div className="victory-screen-box">
+								<button
+									className="victory-next"
+									type="button"
+									onClick={nextVictoryPhase}
+								>
+									Suivant
+								</button>
 								<h1 className="victory-title">{victoryTexts.initial}</h1>
 								<Notification />
 								<div className="box-characters-ending">
@@ -186,13 +193,6 @@ function Endings({ endingScreen, score, jokers, setScore }: EndingScreenProps) {
 											/>
 										))}
 								</div>
-								<button
-									className="victory-next"
-									type="button"
-									onClick={nextVictoryPhase}
-								>
-									Suivant
-								</button>
 							</div>
 						</>
 					)}
