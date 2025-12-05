@@ -305,8 +305,8 @@ function Game() {
 					</nav>
 
 					<div className="game-screen">
-						<Notification />
 						<Success />
+						<Notification />
 						<div className="box-audio">
 							<button type="button" className="mute-btn" onClick={toggleMute}>
 								{muted ? "🔇" : "🔊"}
